@@ -3,9 +3,7 @@ import { env } from "./env";
 
 const sslConfig = env.DB_SSL ? { rejectUnauthorized: false } : undefined;
 
-const poolConfig: pg.PoolConfig = env.DATABASE_URL
-  ? { connectionString: env.DATABASE_URL, ssl: sslConfig }
-  : {
+const poolConfig: pg.PoolConfig = env.DATABASE_URL? { connectionString: env.DATABASE_URL, ssl: sslConfig }: {
       host: env.DB_HOST,
       port: env.DB_PORT,
       user: env.DB_USER,
