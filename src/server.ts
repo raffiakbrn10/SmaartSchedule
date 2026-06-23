@@ -1,11 +1,12 @@
 import { createServer } from "node:http";
 import next from "next";
-import { verifyDatabaseConnection } from "./config/database.js";
-import { env } from "./config/env.js";
-import { logger } from "./config/logger.js";
-import { startReminderJob } from "./jobs/reminderJob.js";
-import { createApp } from "./app.js";
-import { startTelegramPolling, stopTelegramPolling } from "./services/telegram/pollingService.js";
+import { verifyDatabaseConnection } from "./config/database";
+import { env } from "./config/env";
+import { logger } from "./config/logger";
+import { startReminderJob } from "./jobs/reminderJob";
+import { createApp } from "./app";
+import { startTelegramPolling, stopTelegramPolling } from "./services/telegram/pollingService";
+import { setupTelegramWebhook } from "./services/telegram/webhookService";
 
 async function main(): Promise<void> {
   await verifyDatabaseConnection();
@@ -22,7 +23,11 @@ async function main(): Promise<void> {
   const expressApp = createApp(handle);
   const server = createServer(expressApp);
   const reminderTask = startReminderJob();
-  void startTelegramPolling();
+  if (env.TELEGRAM_WEBHOOK_ENABLED) {
+    void setupTelegramWebhook();
+  } else {
+    void startTelegramPolling();
+  }
 
   server.listen(env.PORT, () => logger.info({ port: env.PORT }, "SmartSchedule server started"));
 
@@ -47,3 +52,6 @@ void main().catch((error: unknown) => {
   logger.fatal({ error }, "Server startup failed");
   process.exit(1);
 });
+
+
+

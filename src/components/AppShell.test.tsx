@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AppShell } from "./AppShell.jsx";
-import { useAuth } from "../context/AuthContext.js";
+import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -75,3 +75,6 @@ describe("AppShell", () => {
     expect(sidebar).toHaveAttribute("data-open", "false");
   });
 });
+
+
+

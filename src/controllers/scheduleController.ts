@@ -1,12 +1,12 @@
 import type { NextFunction, Request, Response } from "express";
-import { logger } from "../config/logger.js";
-import { scheduleRepository, type ScheduleRecord } from "../repositories/scheduleRepository.js";
-import { userRepository } from "../repositories/userRepository.js";
-import { scheduleIdSchema, type ScheduleInput } from "../schemas/schedule.js";
-import { googleCalendarService } from "../services/googleCalendarService.js";
-import { notificationService } from "../services/telegram/notificationService.js";
-import type { ApiResponse } from "../types/api.js";
-import { AppError, errorMessage } from "../utils/errors.js";
+import { logger } from "../config/logger";
+import { scheduleRepository, type ScheduleRecord } from "../repositories/scheduleRepository";
+import { userRepository } from "../repositories/userRepository";
+import { scheduleIdSchema, type ScheduleInput } from "../schemas/schedule";
+import { googleCalendarService } from "../services/googleCalendarService";
+import { notificationService } from "../services/telegram/notificationService";
+import type { ApiResponse } from "../types/api";
+import { AppError, errorMessage } from "../utils/errors";
 
 export const scheduleController = {
   async list(req: Request, res: Response<ApiResponse<{ schedules: ScheduleRecord[] }>>, next: NextFunction): Promise<void> {
@@ -37,3 +37,6 @@ export const scheduleController = {
     } catch (error) { next(error); }
   },
 };
+
+
+

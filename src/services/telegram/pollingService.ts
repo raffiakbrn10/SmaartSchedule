@@ -1,9 +1,7 @@
-import { env } from "../../config/env.js";
-import { logger } from "../../config/logger.js";
-import { userRepository } from "../../repositories/userRepository.js";
-import { authService } from "../authService.js";
-import { telegramClient } from "./telegramClient.js";
-import { telegramTemplates } from "./templates.js";
+import { env } from "../../config/env";
+import { logger } from "../../config/logger";
+import { telegramClient } from "./telegramClient";
+import { handleTelegramUpdate } from "./updateHandler";
 
 let stopped = false;
 
@@ -21,13 +19,7 @@ export async function startTelegramPolling(): Promise<void> {
       const updates = await telegramClient.getUpdates(offset, controller.signal);
       for (const update of updates) {
         offset = update.update_id + 1;
-        const match = update.message?.text?.match(/^\/start\s+(.+)$/);
-        if (!match?.[1] || !update.message) continue;
-        try {
-          const user = authService.verifyPurposeToken(match[1], "telegram-link");
-          await userRepository.updateTelegramChatId(user.id, String(update.message.chat.id));
-          await telegramClient.sendMessage(String(update.message.chat.id), telegramTemplates.linked(user.username));
-        } catch { await telegramClient.sendMessage(String(update.message.chat.id), "Tautan ini tidak valid atau sudah kedaluwarsa. Buat tautan baru dari SmartSchedule."); }
+        await handleTelegramUpdate(update);
       }
     } catch (error) {
       if (!stopped) logger.warn({ error }, "Telegram polling cycle failed");
@@ -35,3 +27,6 @@ export async function startTelegramPolling(): Promise<void> {
     if (!stopped) await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 }
+
+
+

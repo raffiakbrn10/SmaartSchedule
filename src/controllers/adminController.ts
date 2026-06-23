@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { z } from "zod";
-import { notificationService } from "../services/telegram/notificationService.js";
-import type { DeliveryResult } from "../services/telegram/types.js";
-import type { ApiResponse } from "../types/api.js";
+import { notificationService } from "../services/telegram/notificationService";
+import type { DeliveryResult } from "../services/telegram/types";
+import type { ApiResponse } from "../types/api";
 
 const testSchema = z.object({ chatId: z.string().trim().min(1).optional() });
 
@@ -15,3 +15,6 @@ export const adminController = {
     } catch (error) { next(error); }
   },
 };
+
+
+

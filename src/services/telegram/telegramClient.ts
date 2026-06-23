@@ -1,7 +1,7 @@
-import { env } from "../../config/env.js";
-import { logger } from "../../config/logger.js";
-import { errorMessage } from "../../utils/errors.js";
-import type { DeliveryResult } from "./types.js";
+import { env } from "../../config/env";
+import { logger } from "../../config/logger";
+import { errorMessage } from "../../utils/errors";
+import type { DeliveryResult } from "./types";
 
 interface TelegramResponse<T> { ok: boolean; result?: T; description?: string; error_code?: number; parameters?: { retry_after?: number } }
 interface TelegramMessage { message_id: number }
@@ -55,6 +55,33 @@ export class TelegramClient {
     if (!response.ok || !payload.ok) throw new Error(payload.description ?? "Unable to poll Telegram updates");
     return payload.result ?? [];
   }
+
+  async setWebhook(url: string, secretToken?: string): Promise<boolean> {
+    if (!this.token) return false;
+    const body: Record<string, unknown> = { url, allowed_updates: ["message"] };
+    if (secretToken) {
+      body.secret_token = secretToken;
+    }
+    const { response, payload } = await this.call<boolean>("setWebhook", body);
+    if (!response.ok || !payload.ok) {
+      logger.error({ description: payload.description }, "Failed to set Telegram webhook");
+      return false;
+    }
+    return true;
+  }
+
+  async deleteWebhook(): Promise<boolean> {
+    if (!this.token) return false;
+    const { response, payload } = await this.call<boolean>("deleteWebhook", {});
+    if (!response.ok || !payload.ok) {
+      logger.error({ description: payload.description }, "Failed to delete Telegram webhook");
+      return false;
+    }
+    return true;
+  }
 }
 
 export const telegramClient = new TelegramClient();
+
+
+

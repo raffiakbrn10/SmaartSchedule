@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ThemeToggle } from "./ThemeToggle.jsx";
-import { useTheme } from "../hooks/useTheme.js";
+import { useTheme } from "../hooks/useTheme";
 import React from "react";
 
 vi.mock("../hooks/useTheme.js", () => ({
@@ -42,3 +42,6 @@ describe("ThemeToggle", () => {
     expect(button.textContent).not.toBe("☀️");
   });
 });
+
+
+

@@ -1,11 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import { z } from "zod";
-import { env } from "../config/env.js";
-import { userRepository } from "../repositories/userRepository.js";
-import { authService } from "../services/authService.js";
-import { googleCalendarService } from "../services/googleCalendarService.js";
-import type { ApiResponse } from "../types/api.js";
-import { AppError } from "../utils/errors.js";
+import { env } from "../config/env";
+import { logger } from "../config/logger";
+import { userRepository } from "../repositories/userRepository";
+import { authService } from "../services/authService";
+import { googleCalendarService } from "../services/googleCalendarService";
+import { handleTelegramUpdate } from "../services/telegram/updateHandler";
+import type { ApiResponse } from "../types/api";
+import { AppError } from "../utils/errors";
 
 const callbackSchema = z.object({ code: z.string().min(1), state: z.string().min(1) });
 
@@ -38,9 +40,41 @@ export const integrationController = {
   },
   telegramLink(req: Request, res: Response<ApiResponse<{ url: string }>>, next: NextFunction): void {
     try {
-      if (!env.TELEGRAM_POLLING_ENABLED || !env.TELEGRAM_BOT_USERNAME) throw new AppError(503, "Penautan Telegram belum dikonfigurasi.");
+      if ((!env.TELEGRAM_POLLING_ENABLED && !env.TELEGRAM_WEBHOOK_ENABLED) || !env.TELEGRAM_BOT_USERNAME) {
+        throw new AppError(503, "Penautan Telegram belum dikonfigurasi.");
+      }
       const token = authService.createPurposeToken(req.user!, "telegram-link");
       res.json({ success: true, message: "Tautan Telegram dibuat.", data: { url: `https://t.me/${env.TELEGRAM_BOT_USERNAME}?start=${encodeURIComponent(token)}` } });
     } catch (error) { next(error); }
   },
+  async telegramWebhook(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!env.TELEGRAM_WEBHOOK_ENABLED) {
+        throw new AppError(403, "Webhook Telegram dinonaktifkan.");
+      }
+      if (env.TELEGRAM_WEBHOOK_SECRET) {
+        const incomingSecret = req.headers["x-telegram-bot-api-secret-token"];
+        if (incomingSecret !== env.TELEGRAM_WEBHOOK_SECRET) {
+          throw new AppError(401, "Token rahasia webhook tidak valid.");
+        }
+      }
+      const update = req.body;
+      if (update && typeof update === "object" && "update_id" in update) {
+        try {
+          const promise = handleTelegramUpdate(update);
+          if (promise && typeof promise.catch === "function") {
+            promise.catch((error) => {
+              logger.error({ error, update }, "Error handling Telegram update via webhook");
+            });
+          }
+        } catch (error) {
+          logger.error({ error, update }, "Error invoking handleTelegramUpdate");
+        }
+      }
+      res.status(200).json({ success: true, message: "Webhook diproses." });
+    } catch (error) { next(error); }
+  },
 };
+
+
+

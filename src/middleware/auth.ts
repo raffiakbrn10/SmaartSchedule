@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
-import { env } from "../config/env.js";
-import { supabase } from "../config/supabase.js";
-import { userRepository } from "../repositories/userRepository.js";
-import { AppError } from "../utils/errors.js";
+import { env } from "../config/env";
+import { supabase } from "../config/supabase";
+import { userRepository } from "../repositories/userRepository";
+import { AppError } from "../utils/errors";
 
 export async function requireAuth(req: Request, _res: Response, next: NextFunction): Promise<void> {
   try {
@@ -53,3 +53,6 @@ export function requireAdmin(req: Request, _res: Response, next: NextFunction): 
   if (!req.user || !env.adminUserIds.has(req.user.id)) return next(new AppError(403, "Akses administrator diperlukan."));
   next();
 }
+
+
+

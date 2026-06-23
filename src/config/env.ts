@@ -17,6 +17,7 @@ const schema = z.object({
   ADMIN_USER_IDS: z.string().default(""),
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().default("https://placeholder-project-id.supabase.co"),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).default("placeholder-anon-key"),
+  NEXT_PUBLIC_BACKEND_URL: z.string().default(""),
   DB_HOST: z.string().default("localhost"),
   DB_PORT: z.coerce.number().int().positive().default(5432),
   DB_USER: z.string().default("root"),
@@ -32,9 +33,13 @@ const schema = z.object({
   TELEGRAM_BOT_USERNAME: z.string().default(""),
   TELEGRAM_NOTIFICATIONS_ENABLED: booleanString.default(false),
   TELEGRAM_POLLING_ENABLED: booleanString.default(false),
+  TELEGRAM_WEBHOOK_ENABLED: booleanString.default(false),
+  TELEGRAM_WEBHOOK_SECRET: z.string().default(""),
+  TELEGRAM_WEBHOOK_URL: z.string().url().or(z.literal("")).default(""),
   TELEGRAM_REQUEST_TIMEOUT_MS: z.coerce.number().int().min(500).max(30_000).default(5000),
   TELEGRAM_MAX_RETRIES: z.coerce.number().int().min(0).max(5).default(2),
   REMINDER_JOB_ENABLED: booleanString.default(false),
+  CRON_SECRET: z.string().default(""),
 });
 
 const parsed = schema.safeParse(process.env);
@@ -46,8 +51,11 @@ if (!parsed.success) {
 if (parsed.data.TELEGRAM_NOTIFICATIONS_ENABLED && !parsed.data.TELEGRAM_BOT_TOKEN) {
   throw new Error("TELEGRAM_BOT_TOKEN is required when Telegram notifications are enabled");
 }
-if (parsed.data.TELEGRAM_POLLING_ENABLED && !parsed.data.TELEGRAM_BOT_USERNAME) {
-  throw new Error("TELEGRAM_BOT_USERNAME is required when Telegram polling is enabled");
+if ((parsed.data.TELEGRAM_POLLING_ENABLED || parsed.data.TELEGRAM_WEBHOOK_ENABLED) && !parsed.data.TELEGRAM_BOT_USERNAME) {
+  throw new Error("TELEGRAM_BOT_USERNAME is required when Telegram polling or webhook is enabled");
+}
+if (parsed.data.TELEGRAM_POLLING_ENABLED && parsed.data.TELEGRAM_WEBHOOK_ENABLED) {
+  throw new Error("Cannot enable both Telegram polling and Telegram webhook at the same time");
 }
 
 export const env = {

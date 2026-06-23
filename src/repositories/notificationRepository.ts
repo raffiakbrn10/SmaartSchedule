@@ -1,4 +1,4 @@
-import { db } from "../config/database.js";
+import { db } from "../config/database";
 
 export interface NotificationDeliveryRepository {
   claim(dedupeKey: string, eventType: string, chatId: string): Promise<boolean>;
@@ -28,3 +28,6 @@ export const notificationRepository: NotificationDeliveryRepository = {
     await db.execute("UPDATE notification_deliveries SET status = 'failed', error_message = $1 WHERE dedupe_key = $2", [reason.slice(0, 500), dedupeKey]);
   },
 };
+
+
+

@@ -43,7 +43,22 @@ describe("env configuration", () => {
     process.env.TELEGRAM_POLLING_ENABLED = "true";
     process.env.TELEGRAM_BOT_USERNAME = "";
 
-    await expect(import("../src/config/env.js")).rejects.toThrow("TELEGRAM_BOT_USERNAME is required when Telegram polling is enabled");
+    await expect(import("../src/config/env.js")).rejects.toThrow("TELEGRAM_BOT_USERNAME is required when Telegram polling or webhook is enabled");
+  });
+
+  it("throws error if TELEGRAM_WEBHOOK_ENABLED is true and TELEGRAM_BOT_USERNAME is missing", async () => {
+    process.env.TELEGRAM_WEBHOOK_ENABLED = "true";
+    process.env.TELEGRAM_BOT_USERNAME = "";
+
+    await expect(import("../src/config/env.js")).rejects.toThrow("TELEGRAM_BOT_USERNAME is required when Telegram polling or webhook is enabled");
+  });
+
+  it("throws error if both TELEGRAM_POLLING_ENABLED and TELEGRAM_WEBHOOK_ENABLED are true", async () => {
+    process.env.TELEGRAM_POLLING_ENABLED = "true";
+    process.env.TELEGRAM_WEBHOOK_ENABLED = "true";
+    process.env.TELEGRAM_BOT_USERNAME = "mybot";
+
+    await expect(import("../src/config/env.js")).rejects.toThrow("Cannot enable both Telegram polling and Telegram webhook at the same time");
   });
 
   it("throws error if environment validation fails due to invalid parameters", async () => {

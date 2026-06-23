@@ -1,7 +1,7 @@
 import { google } from "googleapis";
-import { env } from "../config/env.js";
-import { logger } from "../config/logger.js";
-import { errorMessage } from "../utils/errors.js";
+import { env } from "../config/env";
+import { logger } from "../config/logger";
+import { errorMessage } from "../utils/errors";
 
 export interface CalendarEventInput { title: string; deadline: Date; description: string }
 
@@ -42,3 +42,6 @@ export const googleCalendarService = {
     }
   },
 };
+
+
+

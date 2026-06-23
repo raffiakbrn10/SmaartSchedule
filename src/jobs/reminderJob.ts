@@ -1,11 +1,11 @@
 import type { PoolClient } from "pg";
 import cron, { type ScheduledTask } from "node-cron";
-import { db } from "../config/database.js";
-import { env } from "../config/env.js";
-import { logger } from "../config/logger.js";
-import { scheduleRepository } from "../repositories/scheduleRepository.js";
-import { notificationService } from "../services/telegram/notificationService.js";
-import { errorMessage } from "../utils/errors.js";
+import { db } from "../config/database";
+import { env } from "../config/env";
+import { logger } from "../config/logger";
+import { scheduleRepository } from "../repositories/scheduleRepository";
+import { notificationService } from "../services/telegram/notificationService";
+import { errorMessage } from "../utils/errors";
 
 export function getReminderThreshold(hours: number): { level: number; label: string } | null {
   if (hours <= 1) return { level: 6, label: "kurang dari 1 jam" };
@@ -40,3 +40,6 @@ export function startReminderJob(): ScheduledTask | null {
   logger.info("Deadline reminder job started");
   return task;
 }
+
+
+

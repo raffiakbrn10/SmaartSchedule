@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
 import jwt, { type SignOptions } from "jsonwebtoken";
-import { env } from "../config/env.js";
-import { userRepository } from "../repositories/userRepository.js";
-import type { CredentialsInput } from "../schemas/auth.js";
-import type { AuthUser } from "../types/api.js";
-import { AppError } from "../utils/errors.js";
+import { env } from "../config/env";
+import { userRepository } from "../repositories/userRepository";
+import type { CredentialsInput } from "../schemas/auth";
+import type { AuthUser } from "../types/api";
+import { AppError } from "../utils/errors";
 
 interface SessionClaims extends jwt.JwtPayload { id: number; username: string; purpose?: string }
 
@@ -40,4 +40,7 @@ export const authService = {
     return { id: decoded.id, username: decoded.username };
   },
 };
+
+
+
 

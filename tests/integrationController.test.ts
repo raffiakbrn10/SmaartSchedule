@@ -4,6 +4,7 @@ import { createApp } from "../src/app.js";
 import { authService } from "../src/services/authService.js";
 import { userRepository, type UserRecord } from "../src/repositories/userRepository.js";
 import { googleCalendarService } from "../src/services/googleCalendarService.js";
+import { handleTelegramUpdate } from "../src/services/telegram/updateHandler.js";
 import { env } from "../src/config/env.js";
 
 vi.mock("../src/services/authService.js", () => ({
@@ -26,6 +27,10 @@ vi.mock("../src/services/googleCalendarService.js", () => ({
     getAuthorizationUrl: vi.fn(),
     exchangeCode: vi.fn(),
   },
+}));
+
+vi.mock("../src/services/telegram/updateHandler.js", () => ({
+  handleTelegramUpdate: vi.fn(() => Promise.resolve()),
 }));
 
 describe("integrationController", () => {
@@ -134,15 +139,36 @@ describe("integrationController", () => {
 
   describe("GET /integrations/telegram/link", () => {
     const originalPolling = env.TELEGRAM_POLLING_ENABLED;
+    const originalWebhook = env.TELEGRAM_WEBHOOK_ENABLED;
     const originalUsername = env.TELEGRAM_BOT_USERNAME;
 
     afterEach(() => {
       env.TELEGRAM_POLLING_ENABLED = originalPolling;
+      env.TELEGRAM_WEBHOOK_ENABLED = originalWebhook;
       env.TELEGRAM_BOT_USERNAME = originalUsername;
     });
 
-    it("returns short Telegram link if configured", async () => {
+    it("returns short Telegram link if configured (polling)", async () => {
       env.TELEGRAM_POLLING_ENABLED = true;
+      env.TELEGRAM_WEBHOOK_ENABLED = false;
+      env.TELEGRAM_BOT_USERNAME = "mybot";
+      vi.mocked(authService.createPurposeToken).mockReturnValueOnce("tg-token");
+
+      const response = await request(app)
+        .get("/integrations/telegram/link")
+        .set("Authorization", "Bearer token");
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        success: true,
+        message: "Tautan Telegram dibuat.",
+        data: { url: "https://t.me/mybot?start=tg-token" },
+      });
+    });
+
+    it("returns short Telegram link if configured (webhook)", async () => {
+      env.TELEGRAM_POLLING_ENABLED = false;
+      env.TELEGRAM_WEBHOOK_ENABLED = true;
       env.TELEGRAM_BOT_USERNAME = "mybot";
       vi.mocked(authService.createPurposeToken).mockReturnValueOnce("tg-token");
 
@@ -160,6 +186,7 @@ describe("integrationController", () => {
 
     it("returns 503 if telegram integration is disabled or not configured", async () => {
       env.TELEGRAM_POLLING_ENABLED = false;
+      env.TELEGRAM_WEBHOOK_ENABLED = false;
 
       const response = await request(app)
         .get("/integrations/telegram/link")
@@ -168,6 +195,64 @@ describe("integrationController", () => {
       expect(response.status).toBe(503);
       const body = response.body as Record<string, unknown>;
       expect(body.message).toBe("Penautan Telegram belum dikonfigurasi.");
+    });
+  });
+
+  describe("POST /integrations/telegram/webhook", () => {
+    const originalWebhookEnabled = env.TELEGRAM_WEBHOOK_ENABLED;
+    const originalWebhookSecret = env.TELEGRAM_WEBHOOK_SECRET;
+
+    afterEach(() => {
+      env.TELEGRAM_WEBHOOK_ENABLED = originalWebhookEnabled;
+      env.TELEGRAM_WEBHOOK_SECRET = originalWebhookSecret;
+    });
+
+    it("returns 403 when webhook is disabled", async () => {
+      env.TELEGRAM_WEBHOOK_ENABLED = false;
+
+      const response = await request(app)
+        .post("/integrations/telegram/webhook")
+        .send({ update_id: 123 });
+
+      expect(response.status).toBe(403);
+      expect(response.body.message).toContain("Webhook Telegram dinonaktifkan");
+      expect(handleTelegramUpdate).not.toHaveBeenCalled();
+    });
+
+    it("returns 401 when secret token is configured but missing or incorrect", async () => {
+      env.TELEGRAM_WEBHOOK_ENABLED = true;
+      env.TELEGRAM_WEBHOOK_SECRET = "supersecret";
+
+      const response1 = await request(app)
+        .post("/integrations/telegram/webhook")
+        .send({ update_id: 123 });
+
+      expect(response1.status).toBe(401);
+      expect(response1.body.message).toContain("Token rahasia webhook tidak valid");
+
+      const response2 = await request(app)
+        .post("/integrations/telegram/webhook")
+        .set("X-Telegram-Bot-Api-Secret-Token", "wrongsecret")
+        .send({ update_id: 123 });
+
+      expect(response2.status).toBe(401);
+      expect(handleTelegramUpdate).not.toHaveBeenCalled();
+    });
+
+    it("returns 200 and processes update when secret token matches or is not required", async () => {
+      env.TELEGRAM_WEBHOOK_ENABLED = true;
+      env.TELEGRAM_WEBHOOK_SECRET = "supersecret";
+
+      const updatePayload = { update_id: 123, message: { text: "/start tg-token", chat: { id: 111 } } };
+
+      const response = await request(app)
+        .post("/integrations/telegram/webhook")
+        .set("X-Telegram-Bot-Api-Secret-Token", "supersecret")
+        .send(updatePayload);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toContain("Webhook diproses");
+      expect(handleTelegramUpdate).toHaveBeenCalledWith(updatePayload);
     });
   });
 });

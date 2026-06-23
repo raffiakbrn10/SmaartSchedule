@@ -1,5 +1,5 @@
 import pg from "pg";
-import { env } from "./env.js";
+import { env } from "./env";
 
 const sslConfig = env.DB_SSL ? { rejectUnauthorized: false } : undefined;
 
@@ -41,3 +41,6 @@ export async function verifyDatabaseConnection(): Promise<void> {
     client.release();
   }
 }
+
+
+

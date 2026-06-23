@@ -1,7 +1,7 @@
 import type { ApiResponse, IntegrationStatus, Schedule, ScheduleInput, User } from "@/types/api";
 import { supabase } from "@/lib/supabase";
 
-const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL?.trim() || "/api";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number, public readonly errors?: Record<string, string[]>) { super(message); this.name = "ApiError"; }

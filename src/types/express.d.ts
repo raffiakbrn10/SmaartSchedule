@@ -1,4 +1,4 @@
-import type { AuthUser } from "./api.js";
+import type { AuthUser } from "./api";
 
 declare global {
   namespace Express {
@@ -7,3 +7,6 @@ declare global {
 }
 
 export {};
+
+
+
