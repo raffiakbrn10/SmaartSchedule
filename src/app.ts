@@ -12,19 +12,35 @@ import { googleRoutes, integrationRoutes } from "./routes/integrationRoutes.js";
 import { scheduleRoutes } from "./routes/scheduleRoutes.js";
 
 export function createApp(
-  nextHandler?: (req: express.Request, res: express.Response) => Promise<void> | void
+  nextHandler?: (
+    req: express.Request,
+    res: express.Response,
+  ) => Promise<void> | void,
 ) {
   const app = express();
   app.disable("x-powered-by");
   app.set("trust proxy", 1);
   app.use(pinoHttp({ logger }));
   app.use(helmet());
-  app.use(cors({ origin(origin, callback) { callback(null, !origin || env.corsOrigins.includes(origin)); }, credentials: true, methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] }));
+  app.use(
+    cors({
+      origin(origin, callback) {
+        callback(null, !origin || env.corsOrigins.includes(origin));
+      },
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    }),
+  );
   app.use(express.json({ limit: "64kb" }));
   app.use(cookieParser());
 
-  app.get("/", (_req, res) => { res.type("text").send("SmartSchedule API"); });
-  app.get("/health", (_req, res) => { res.json({ success: true, message: "API sehat.", data: { status: "ok" } }); });
+  // === PERBAIKAN 1: Menghapus app.get("/") agar rute utama diambil alih Next.js ===
+  // (Rute lama: app.get("/", ...) dihapus dari sini)
+
+  // Rute API tetap dipertahankan
+  app.get("/health", (_req, res) => {
+    res.json({ success: true, message: "API sehat.", data: { status: "ok" } });
+  });
   app.use("/auth", authRoutes);
   app.use("/schedules", scheduleRoutes);
   app.use("/google", googleRoutes);
@@ -32,13 +48,30 @@ export function createApp(
   app.use("/api/users", integrationRoutes);
   app.use("/admin", adminRoutes);
 
+  // Jalur jembatan antara Express dan Next.js
   if (nextHandler) {
     app.use((req, res, next) => {
-      const apiPrefixes = ["/auth", "/schedules", "/google", "/integrations", "/api/users", "/admin", "/health"];
-      const isApi = apiPrefixes.some(prefix => req.path === prefix || req.path.startsWith(prefix + "/")) || req.path === "/";
+      const apiPrefixes = [
+        "/auth",
+        "/schedules",
+        "/google",
+        "/integrations",
+        "/api/users",
+        "/admin",
+        "/health",
+      ];
+
+      // === PERBAIKAN 2: Menghapus kondisi '|| req.path === "/"' ===
+      // Ini memastikan jika user mengakses "/", "/dashboard", atau halaman UI lainnya, Express akan langsung melemparnya ke Next.js
+      const isApi = apiPrefixes.some(
+        (prefix) => req.path === prefix || req.path.startsWith(prefix + "/"),
+      );
+
       if (isApi) {
-        return next();
+        return next(); // Jika rute API, lanjut diproses oleh Express di atas
       }
+
+      // Jika BUKAN rute API, biarkan Next.js yang memproses tampilannya
       void nextHandler(req, res);
     });
   }
