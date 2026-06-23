@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound() { return <main className="flex min-h-screen items-center justify-center bg-neutral-50 p-6 text-center dark:bg-black"><div><p className="text-sm font-bold uppercase tracking-widest text-emerald-600 dark:text-cyan-400">404</p><h1 className="mt-3 text-3xl font-bold">Halaman tidak ditemukan</h1><Link href="/" className="mt-6 inline-block rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white dark:bg-cyan-600">Kembali ke beranda</Link></div></main>; }

@@ -1,0 +1,4 @@
+export function StatsCard({ title, value, icon, color }: { title: string; value: number; icon: string; color: "teal" | "orange" | "emerald" }) {
+  const styles = { teal: "bg-teal-100 text-teal-600 dark:bg-blue-950/40 dark:text-blue-400", orange: "bg-orange-100 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400", emerald: "bg-emerald-100 text-emerald-600 dark:bg-cyan-950/40 dark:text-cyan-400" };
+  return <article className="rounded-3xl border border-neutral-200/70 bg-white/70 p-6 shadow-lg shadow-neutral-100 transition hover:-translate-y-0.5 dark:border-neutral-800 dark:bg-neutral-900/60 dark:shadow-none"><div className="flex items-center justify-between"><div><p className="mb-1 text-sm font-medium text-neutral-500 dark:text-neutral-400">{title}</p><p className="text-3xl font-bold tracking-tight">{value}</p></div><span aria-hidden className={`flex h-14 w-14 items-center justify-center rounded-2xl text-2xl ${styles[color]}`}>{icon}</span></div></article>;
+}

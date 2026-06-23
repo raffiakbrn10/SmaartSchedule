@@ -1,0 +1,2 @@
+"use client";
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset(): void }) { return <main className="flex min-h-screen items-center justify-center bg-neutral-50 p-6 dark:bg-black"><div className="max-w-md text-center"><h1 className="text-2xl font-bold">Halaman tidak dapat dimuat</h1><p className="mt-2 text-neutral-500">Terjadi kesalahan sementara. Coba muat ulang bagian ini.</p><button onClick={reset} className="mt-6 rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white dark:bg-cyan-600">Coba lagi</button></div></main>; }
