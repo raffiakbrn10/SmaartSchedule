@@ -13,3 +13,5 @@ export function AppShell({ children }: { children: ReactNode }) {
   if (loading || !user) return <main className="min-h-screen bg-neutral-50 pt-20 dark:bg-black"><Loading label="Memeriksa sesi..." /></main>;
   return <div className="min-h-screen bg-neutral-50 transition-colors dark:bg-black"><Navbar onMenuClick={() => setOpen(true)} /><Sidebar open={open} onClose={() => setOpen(false)} /><main className="pt-16 transition-all lg:pl-64">{children}</main></div>;
 }
+
+

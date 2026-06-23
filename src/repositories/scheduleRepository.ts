@@ -1,6 +1,6 @@
 import type { PoolClient } from "pg";
-import { db } from "../config/database.js";
-import type { ScheduleInput } from "../schemas/schedule.js";
+import { db } from "../config/database";
+import type { ScheduleInput } from "../schemas/schedule";
 
 export interface ScheduleRecord {
   id: number;
@@ -43,3 +43,6 @@ export const scheduleRepository = {
     await connection.query("UPDATE schedules SET reminder_level = $1 WHERE id = $2 AND COALESCE(reminder_level, 0) < $3", [level, id, level]);
   },
 };
+
+
+

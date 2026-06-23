@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import type { ZodType } from "zod";
-import { AppError } from "../utils/errors.js";
+import { AppError } from "../utils/errors";
 
 export function validateBody<T>(schema: ZodType<T>) {
   return (req: Request, _res: Response, next: NextFunction): void => {
@@ -14,3 +14,6 @@ export function validateBody<T>(schema: ZodType<T>) {
     next();
   };
 }
+
+
+

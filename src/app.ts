@@ -3,13 +3,13 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import { pinoHttp } from "pino-http";
-import { env } from "./config/env.js";
-import { logger } from "./config/logger.js";
-import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
-import { adminRoutes } from "./routes/adminRoutes.js";
-import { authRoutes } from "./routes/authRoutes.js";
-import { googleRoutes, integrationRoutes } from "./routes/integrationRoutes.js";
-import { scheduleRoutes } from "./routes/scheduleRoutes.js";
+import { env } from "./config/env";
+import { logger } from "./config/logger";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
+import { adminRoutes } from "./routes/adminRoutes";
+import { authRoutes } from "./routes/authRoutes";
+import { googleRoutes, integrationRoutes } from "./routes/integrationRoutes";
+import { scheduleRoutes } from "./routes/scheduleRoutes";
 
 export function createApp(
   nextHandler?: (
@@ -80,3 +80,6 @@ export function createApp(
   app.use(errorHandler);
   return app;
 }
+
+
+

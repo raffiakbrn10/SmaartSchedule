@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { api, ApiError } from "./api.js";
+import { api, ApiError } from "./api";
 
 describe("frontend api client", () => {
   beforeEach(() => {
@@ -100,3 +100,6 @@ describe("frontend api client", () => {
     expect(mockFetch).toHaveBeenLastCalledWith(expect.stringContaining("/integrations/telegram/link"), expect.anything());
   });
 });
+
+
+

@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 import { google } from "googleapis";
-import { env } from "../config/env.js";
-import { userRepository } from "../repositories/userRepository.js";
-import type { CredentialsInput } from "../schemas/auth.js";
-import { authService } from "../services/authService.js";
-import type { ApiResponse, AuthUser } from "../types/api.js";
-import { AppError } from "../utils/errors.js";
+import { env } from "../config/env";
+import { userRepository } from "../repositories/userRepository";
+import type { CredentialsInput } from "../schemas/auth";
+import { authService } from "../services/authService";
+import type { ApiResponse, AuthUser } from "../types/api";
+import { AppError } from "../utils/errors";
 
 const authCookieName = "smartschedule_session";
 const jwtSecret = process.env.JWT_SECRET || "development-only-secret-change-me-now";
@@ -86,3 +86,6 @@ export const authController = {
     }
   }
 };
+
+
+

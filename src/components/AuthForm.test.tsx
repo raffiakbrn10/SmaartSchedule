@@ -1,9 +1,9 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { AuthForm } from "./AuthForm.jsx";
-import { useAuth } from "../context/AuthContext.js";
+import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
-import { ApiError } from "../lib/api.js";
+import { ApiError } from "../lib/api";
 import React from "react";
 
 vi.mock("../context/AuthContext.js", () => ({
@@ -140,3 +140,6 @@ describe("AuthForm", () => {
     expect(alert).toHaveTextContent("Tidak dapat terhubung ke server.");
   });
 });
+
+
+

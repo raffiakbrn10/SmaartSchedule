@@ -1,9 +1,9 @@
-import { env } from "../../config/env.js";
-import { notificationRepository, type NotificationDeliveryRepository } from "../../repositories/notificationRepository.js";
-import { errorMessage } from "../../utils/errors.js";
-import { telegramClient, type TelegramClient } from "./telegramClient.js";
-import { telegramTemplates } from "./templates.js";
-import type { DeliveryResult, NotificationPayload } from "./types.js";
+import { env } from "../../config/env";
+import { notificationRepository, type NotificationDeliveryRepository } from "../../repositories/notificationRepository";
+import { errorMessage } from "../../utils/errors";
+import { telegramClient, type TelegramClient } from "./telegramClient";
+import { telegramTemplates } from "./templates";
+import type { DeliveryResult, NotificationPayload } from "./types";
 
 export class NotificationService {
   constructor(
@@ -44,3 +44,6 @@ export class NotificationService {
 }
 
 export const notificationService = new NotificationService();
+
+
+

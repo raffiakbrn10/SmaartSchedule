@@ -1,9 +1,9 @@
 import type { ErrorRequestHandler, RequestHandler } from "express";
 import { ZodError } from "zod";
-import { env } from "../config/env.js";
-import { logger } from "../config/logger.js";
-import type { ApiResponse } from "../types/api.js";
-import { AppError, errorMessage } from "../utils/errors.js";
+import { env } from "../config/env";
+import { logger } from "../config/logger";
+import type { ApiResponse } from "../types/api";
+import { AppError, errorMessage } from "../utils/errors";
 
 export const notFoundHandler: RequestHandler = (_req, res) => {
   res.status(404).json({ success: false, message: "Endpoint tidak ditemukan." } satisfies ApiResponse<never>);
@@ -20,3 +20,6 @@ export const errorHandler: ErrorRequestHandler = (error: unknown, req, res, _nex
   if (env.NODE_ENV !== "production" && status === 500) body.errors = { debug: [errorMessage(error)] };
   res.status(status).json(body);
 };
+
+
+

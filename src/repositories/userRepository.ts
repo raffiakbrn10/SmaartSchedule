@@ -1,4 +1,4 @@
-import { db } from "../config/database.js";
+import { db } from "../config/database";
 
 export interface UserRecord {
   id: number;
@@ -32,3 +32,6 @@ export const userRepository = {
     return rows.length > 0;
   },
 };
+
+
+
