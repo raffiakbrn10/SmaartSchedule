@@ -33,8 +33,8 @@ CREATE INDEX IF NOT EXISTS idx_notification_deliveries_status_updated ON notific
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-   NEW.updated_at = NOW();
-   RETURN NEW;
+    NEW.updated_at = NOW();
+    RETURN NEW;
 END;
 $$ language 'plpgsql';
 

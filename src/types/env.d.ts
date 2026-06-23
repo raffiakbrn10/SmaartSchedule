@@ -8,7 +8,7 @@ declare global {
       CORS_ORIGINS?: string;
       ADMIN_USER_IDS?: string;
       NEXT_PUBLIC_SUPABASE_URL?: string;
-      NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?: string;
       NEXT_PUBLIC_BACKEND_URL?: string;
       DB_HOST?: string;
       DB_PORT?: string;

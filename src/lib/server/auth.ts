@@ -10,7 +10,7 @@ const jwtSecret = process.env.JWT_SECRET || (process.env.NODE_ENV === "productio
 const jwtExpiresIn = process.env.JWT_EXPIRES_IN || "1d";
 const options: SignOptions = { expiresIn: jwtExpiresIn as NonNullable<SignOptions["expiresIn"]> };
 
-const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY, { auth: { persistSession: false } });
+const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
 
 export interface AuthUser { id: number; username: string }
 
