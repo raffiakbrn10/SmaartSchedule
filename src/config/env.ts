@@ -89,10 +89,7 @@ if (
   );
 }
 if (
-  (parsed.data.TELEGRAM_POLLING_ENABLED ||
-    parsed.data.TELEGRAM_WEBHOOK_ENABLED) &&
-  !parsed.data.TELEGRAM_BOT_USERNAME
-) {
+  (parsed.data.TELEGRAM_POLLING_ENABLED || parsed.data.TELEGRAM_WEBHOOK_ENABLED) && !parsed.data.TELEGRAM_BOT_USERNAME) {
   throw new Error(
     "TELEGRAM_BOT_USERNAME is required when Telegram polling or webhook is enabled",
   );
