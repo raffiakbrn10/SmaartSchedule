@@ -22,27 +22,30 @@ export async function requireAuth(req: Request, _res: Response, next: NextFuncti
     
     const email = supabaseUser.email;
     const localId = supabaseUser.user_metadata?.local_user_id;
+    const displayName = supabaseUser.user_metadata?.display_name || supabaseUser.user_metadata?.name || supabaseUser.user_metadata?.full_name || email.split('@')[0];
     
-    let localUser: { id: number; username: string };
+    let localUser: { id: number; username: string; displayName?: string };
     if (typeof localId === "number") {
-      localUser = { id: localId, username: email };
+      let record = await userRepository.findById(localId);
+      localUser = { id: localId, username: email, displayName: record?.display_name || displayName };
     } else {
       let record = await userRepository.findByUsername(email);
       if (!record) {
         const dummyPasswordHash = "SUPABASE_EXTERNAL_AUTH";
-        const id = await userRepository.create(email, dummyPasswordHash);
+        const id = await userRepository.create(email, dummyPasswordHash, displayName);
         record = {
           id,
           username: email,
           password: dummyPasswordHash,
+          display_name: displayName,
           google_refresh_token: null,
           telegram_chat_id: null,
         };
       }
-      localUser = { id: record.id, username: record.username };
+      localUser = { id: record.id, username: record.username, displayName: record.display_name || displayName };
     }
     
-    req.user = { id: localUser.id, username: localUser.username };
+    req.user = { id: localUser.id, username: localUser.username, displayName: localUser.displayName };
     next();
   } catch (error) {
     next(error instanceof AppError ? error : new AppError(401, "Sesi tidak valid atau kedaluwarsa."));

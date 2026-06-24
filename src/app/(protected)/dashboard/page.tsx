@@ -38,12 +38,14 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-8 p-5 sm:p-8">
-      {/* Welcome Header */}
-      <header className="mb-2 animate-fade-in-up">
-        <h1 className="text-2xl font-extrabold sm:text-3xl">
-          Halo, <span className="text-gradient">{user?.username ?? "Pengguna"}</span>
+      {/* Header Section */}
+      <header className="mb-10 animate-fade-in-up">
+        <h1 className="text-3xl font-extrabold sm:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400 dark:from-white dark:to-neutral-400">
+          Halo, {user?.displayName || user?.username?.split("@")[0]}! 👋
         </h1>
-        <p className="mt-1.5 text-neutral-500 dark:text-neutral-400">Berikut ringkasan aktivitas dan tugasmu.</p>
+        <p className="mt-3 text-base text-neutral-500 dark:text-neutral-400">
+          Pantau progres hari ini dan tetap terorganisir.
+        </p>
       </header>
 
       {error && <div role="alert" className="glass-card border-red-200/60 dark:border-red-900/30 bg-red-50/60 dark:bg-red-950/20 p-4 text-sm font-medium text-red-700 dark:text-red-400">{error}</div>}
@@ -107,23 +109,23 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* Bottom Section: Recent Activities Timeline */}
+      {/* Bottom Section: Aktivitas Terkini */}
       <section>
         <article className="glass-card p-6 sm:p-8">
           <h2 className="mb-6 text-lg font-bold">Aktivitas Terkini</h2>
-          <div className="relative pl-4 border-l-2 border-red-100 dark:border-red-900/30 space-y-8">
+          <div className="space-y-4">
             {recentActivities.length === 0 ? (
                <p className="text-sm text-neutral-500">Belum ada aktivitas tercatat.</p>
             ) : (
               recentActivities.map((act, i) => (
-                <div key={`${act.id}-${i}`} className="relative">
-                  <div className={`absolute -left-[21px] flex h-3 w-3 items-center justify-center rounded-full ring-4 ring-white dark:ring-[#0a0000] ${act.isCompleted ? 'bg-emerald-500' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]'}`} />
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div key={`${act.id}-${i}`} className="flex items-center gap-4 rounded-xl border border-neutral-100 bg-white/40 p-4 transition-all hover:bg-white/60 dark:border-white/5 dark:bg-black/20 dark:hover:bg-white/5">
+                  <div className={`flex h-2.5 w-2.5 shrink-0 rounded-full ${act.isCompleted ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] animate-pulse'}`} />
+                  <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                      <p className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">{act.action}</p>
-                      <p className="text-sm text-neutral-500 dark:text-neutral-400">{act.title}</p>
+                      <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200">{act.action}</p>
+                      <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mt-0.5">{act.title}</p>
                     </div>
-                    <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500">{act.time}</span>
+                    <span className="text-xs font-semibold text-neutral-400 dark:text-neutral-500">{act.time}</span>
                   </div>
                 </div>
               ))

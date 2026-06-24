@@ -11,6 +11,7 @@ authRoutes.post("/register", authLimiter, validateBody(credentialsSchema), authC
 authRoutes.post("/login", authLimiter, validateBody(credentialsSchema), authController.login);
 authRoutes.post("/logout", authController.logout);
 authRoutes.get("/me", requireAuth, authController.me);
+authRoutes.put("/profile", requireAuth, authController.updateProfile);
 authRoutes.get("/google", authController.googleLogin);
 authRoutes.get("/google/callback", authController.googleCallback);
 

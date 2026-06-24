@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { api, ApiError } from "@/lib/api";
 import type { IntegrationStatus } from "@/types/api";
@@ -13,7 +13,16 @@ export default function ProfilePage() {
   const [status, setStatus] = useState<IntegrationStatus>({ googleLinked: false, telegramLinked: false });
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"info" | "success" | "error">("info");
-  const [busy, setBusy] = useState<"google" | "logout" | null>(null);
+  const [busy, setBusy] = useState<"google" | "logout" | "profile" | null>(null);
+  
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [displayNameInput, setDisplayNameInput] = useState("");
+
+  useEffect(() => {
+    if (user?.displayName) {
+      setDisplayNameInput(user.displayName);
+    }
+  }, [user]);
 
   const fetchStatus = useCallback(() => {
     api.integrationStatus().then(setStatus).catch((caught) =>
@@ -47,6 +56,24 @@ export default function ProfilePage() {
     }
   }
 
+  async function handleUpdateProfile(e: FormEvent) {
+    e.preventDefault();
+    setBusy("profile");
+    setMessage("");
+    try {
+      await api.updateProfile({ displayName: displayNameInput });
+      setMessage("Nama panggilan berhasil diperbarui. Halaman akan dimuat ulang.");
+      setMessageType("success");
+      setIsEditingProfile(false);
+      setTimeout(() => window.location.reload(), 1500);
+    } catch (caught) {
+      setMessage(caught instanceof ApiError ? caught.message : "Gagal memperbarui profil.");
+      setMessageType("error");
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function signOut() {
     setBusy("logout");
     await logout();
@@ -59,24 +86,59 @@ export default function ProfilePage() {
     error: "border-red-200/60 bg-red-50/60 text-red-800 dark:border-red-900/30 dark:bg-red-950/20 dark:text-red-400",
   };
 
+  const displayName = user?.displayName || user?.username.split('@')[0] || "Pengguna";
+
   return (
     <div className="mx-auto max-w-3xl p-5 sm:p-8">
       <h1 className="mb-6 text-2xl font-extrabold sm:text-3xl animate-fade-in-up">Pengaturan profil</h1>
       <div className="glass-card space-y-8 p-6 sm:p-10">
         {/* User Info */}
-        <section className="flex items-center gap-5">
-          <div aria-hidden className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-red-800 text-3xl font-extrabold text-white shadow-lg shadow-red-600/20 dark:from-white/90 dark:to-white/70 dark:text-[#0a0000] dark:shadow-white/10">
-            {user?.username.charAt(0).toUpperCase() ?? "U"}
+        <section className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+          <div className="flex items-center gap-5">
+            <div aria-hidden className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-red-800 text-3xl font-extrabold text-white shadow-lg shadow-red-600/20 dark:from-white/90 dark:to-white/70 dark:text-[#0a0000] dark:shadow-white/10">
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <h2 className="truncate text-xl font-bold">{displayName}</h2>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">{user?.username}</p>
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Sesi terverifikasi
+              </span>
+            </div>
           </div>
-          <div className="min-w-0">
-            <h2 className="truncate text-xl font-bold">{user?.username ?? "Pengguna"}</h2>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">Akun SmartSchedule</p>
-            <span className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Sesi terverifikasi
-            </span>
-          </div>
+          <button 
+            onClick={() => setIsEditingProfile(!isEditingProfile)}
+            className="btn-ghost text-sm px-4 py-2"
+          >
+            {isEditingProfile ? "Batal Edit" : "Ubah Nama"}
+          </button>
         </section>
+
+        {isEditingProfile && (
+          <form onSubmit={handleUpdateProfile} className="glass-card p-5 border border-neutral-200/50 dark:border-white/10 flex flex-col sm:flex-row items-end gap-4 animate-fade-in-up">
+            <div className="flex flex-col gap-2 flex-1 w-full">
+              <label htmlFor="displayName" className="text-sm font-semibold text-neutral-600 dark:text-neutral-400">Nama Panggilan Baru</label>
+              <input
+                id="displayName"
+                type="text"
+                required
+                value={displayNameInput}
+                onChange={(e) => setDisplayNameInput(e.target.value)}
+                disabled={busy !== null}
+                className="input-glass focus:ring-1 focus:ring-red-500/50"
+                placeholder="Misal: Budi"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={busy !== null}
+              className="btn-primary py-2.5 px-6 w-full sm:w-auto"
+            >
+              {busy === "profile" ? "Menyimpan..." : "Simpan"}
+            </button>
+          </form>
+        )}
 
         {/* Status Message */}
         {message && (

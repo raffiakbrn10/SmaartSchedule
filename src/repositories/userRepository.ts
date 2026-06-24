@@ -4,21 +4,22 @@ export interface UserRecord {
   id: number;
   username: string;
   password: string;
+  display_name: string | null;
   google_refresh_token: string | null;
   telegram_chat_id: string | null;
 }
 
 export const userRepository = {
   async findByUsername(username: string): Promise<UserRecord | null> {
-    const [rows] = await db.execute<UserRecord[]>("SELECT id, username, password, google_refresh_token, telegram_chat_id FROM users WHERE username = $1 LIMIT 1", [username]);
+    const [rows] = await db.execute<UserRecord[]>("SELECT id, username, password, display_name, google_refresh_token, telegram_chat_id FROM users WHERE username = $1 LIMIT 1", [username]);
     return rows[0] ?? null;
   },
   async findById(id: number): Promise<UserRecord | null> {
-    const [rows] = await db.execute<UserRecord[]>("SELECT id, username, password, google_refresh_token, telegram_chat_id FROM users WHERE id = $1 LIMIT 1", [id]);
+    const [rows] = await db.execute<UserRecord[]>("SELECT id, username, password, display_name, google_refresh_token, telegram_chat_id FROM users WHERE id = $1 LIMIT 1", [id]);
     return rows[0] ?? null;
   },
-  async create(username: string, password: string): Promise<number> {
-    const [rows] = await db.execute<{ id: number }[]>("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id", [username, password]);
+  async create(username: string, password: string, displayName?: string): Promise<number> {
+    const [rows] = await db.execute<{ id: number }[]>("INSERT INTO users (username, password, display_name) VALUES ($1, $2, $3) RETURNING id", [username, password, displayName || null]);
     const firstRow = rows[0];
     if (!firstRow) throw new Error("Gagal membuat pengguna.");
     return firstRow.id;
@@ -29,6 +30,10 @@ export const userRepository = {
   },
   async updateGoogleRefreshToken(id: number, refreshToken: string): Promise<boolean> {
     const [rows] = await db.execute<{ id: number }[]>("UPDATE users SET google_refresh_token = $1 WHERE id = $2 RETURNING id", [refreshToken, id]);
+    return rows.length > 0;
+  },
+  async updateDisplayName(id: number, displayName: string): Promise<boolean> {
+    const [rows] = await db.execute<{ id: number }[]>("UPDATE users SET display_name = $1 WHERE id = $2 RETURNING id", [displayName, id]);
     return rows.length > 0;
   },
 };

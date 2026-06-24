@@ -31,6 +31,20 @@ export const authController = {
   me(req: Request, res: Response<ApiResponse<{ user: AuthUser }>>): void {
     res.json({ success: true, message: "Sesi aktif.", data: { user: req.user! } });
   },
+  async updateProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { displayName } = req.body;
+      if (!displayName || typeof displayName !== "string" || displayName.trim().length < 2) {
+        throw new AppError(400, "Nama panggilan harus berupa teks minimal 2 karakter.");
+      }
+      await userRepository.updateDisplayName(req.user!.id, displayName.trim());
+      // Re-sign token
+      const authUser: AuthUser = { id: req.user!.id, username: req.user!.username, displayName: displayName.trim() };
+      const jwt = await import("jsonwebtoken");
+      const token = jwt.default.sign(authUser, jwtSecret, { expiresIn: jwtExpiresIn as any });
+      res.cookie(authCookieName, token, cookieOptions).json({ success: true, message: "Profil berhasil diperbarui.", data: { user: authUser } });
+    } catch (error) { next(error); }
+  },
   googleLogin(_req: Request, res: Response, next: NextFunction): void {
     try {
       if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) {
@@ -58,6 +72,7 @@ export const authController = {
       const oauth2 = google.oauth2({ version: "v2", auth: client });
       const userInfo = await oauth2.userinfo.get();
       const email = userInfo.data.email;
+      const googleName = userInfo.data.name || email?.split('@')[0];
       if (!email) throw new AppError(400, "Email Google tidak ditemukan.");
       
       let user = await userRepository.findByUsername(email);
@@ -65,17 +80,18 @@ export const authController = {
         const bcrypt = await import("bcryptjs");
         const randomPassword = Math.random().toString(36) + Math.random().toString(36);
         const hashedPassword = await bcrypt.default.hash(randomPassword, 12);
-        const id = await userRepository.create(email, hashedPassword);
+        const id = await userRepository.create(email, hashedPassword, googleName);
         user = {
           id,
           username: email,
           password: hashedPassword,
+          display_name: googleName || null,
           google_refresh_token: null,
           telegram_chat_id: null
         };
       }
       
-      const authUser: AuthUser = { id: user.id, username: user.username };
+      const authUser: AuthUser = { id: user.id, username: user.username, displayName: user.display_name || undefined };
       const jwt = await import("jsonwebtoken");
       const token = jwt.default.sign(authUser, jwtSecret, { expiresIn: jwtExpiresIn as any });
       

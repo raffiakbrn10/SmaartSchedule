@@ -9,7 +9,7 @@ interface AuthContextValue {
   user: User | null;
   loading: boolean;
   login(credentials: { username: string; password: string }): Promise<void>;
-  register(credentials: { username: string; password: string }): Promise<void>;
+  register(credentials: { username: string; password: string; displayName?: string }): Promise<void>;
   logout(): Promise<void>;
 }
 
@@ -66,10 +66,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
   }, []);
 
-  const register = useCallback(async (credentials: { username: string; password: string }) => {
+  const register = useCallback(async (credentials: { username: string; password: string; displayName?: string }) => {
     const { error } = await supabase.auth.signUp({
       email: credentials.username,
       password: credentials.password,
+      options: {
+        data: {
+          display_name: credentials.displayName,
+        },
+      },
     });
     if (error) throw error;
   }, []);

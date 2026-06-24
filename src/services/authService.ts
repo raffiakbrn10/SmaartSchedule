@@ -17,13 +17,13 @@ const options: SignOptions = { expiresIn: jwtExpiresIn as NonNullable<SignOption
 export const authService = {
   async register(input: CredentialsInput): Promise<AuthUser> {
     if (await userRepository.findByUsername(input.username)) throw new AppError(409, "Username sudah digunakan.");
-    const id = await userRepository.create(input.username, await bcrypt.hash(input.password, 12));
-    return { id, username: input.username };
+    const id = await userRepository.create(input.username, await bcrypt.hash(input.password, 12), input.displayName);
+    return { id, username: input.username, displayName: input.displayName };
   },
   async login(input: CredentialsInput): Promise<{ user: AuthUser; token: string }> {
     const user = await userRepository.findByUsername(input.username);
     if (!user || !(await bcrypt.compare(input.password, user.password))) throw new AppError(401, "Username atau password salah.");
-    const authUser = { id: user.id, username: user.username };
+    const authUser = { id: user.id, username: user.username, displayName: user.display_name || undefined };
     return { user: authUser, token: jwt.sign(authUser, jwtSecret, options) };
   },
   verifySession(token: string): AuthUser {

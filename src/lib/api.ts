@@ -26,10 +26,11 @@ async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 
 export const api = {
-  register: (credentials: { username: string; password: string }) => apiRequest<{ user: User }>("/auth/register", { method: "POST", body: JSON.stringify(credentials) }),
+  register: (credentials: { username: string; password: string; displayName?: string }) => apiRequest<{ user: User }>("/auth/register", { method: "POST", body: JSON.stringify(credentials) }),
   login: (credentials: { username: string; password: string }) => apiRequest<{ user: User }>("/auth/login", { method: "POST", body: JSON.stringify(credentials) }),
   logout: () => apiRequest<void>("/auth/logout", { method: "POST" }),
   me: () => apiRequest<{ user: User }>("/auth/me"),
+  updateProfile: (data: { displayName: string }) => apiRequest<{ user: User }>("/auth/profile", { method: "PUT", body: JSON.stringify(data) }),
   schedules: () => apiRequest<{ schedules: Schedule[] }>("/schedules"),
   createSchedule: (input: ScheduleInput) => apiRequest<{ id: number }>("/schedules", { method: "POST", body: JSON.stringify(input) }),
   updateSchedule: (id: number, input: ScheduleInput) => apiRequest<void>(`/schedules/${id}`, { method: "PUT", body: JSON.stringify(input) }),

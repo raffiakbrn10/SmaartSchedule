@@ -8,11 +8,13 @@ export interface ApiResponse<T> {
 export interface User {
   id: number;
   username: string;
+  displayName?: string;
 }
 
 export interface AuthUser {
   id: number;
   username: string;
+  displayName?: string;
 }
 
 export type Priority = "Rendah" | "Medium" | "Tinggi";
