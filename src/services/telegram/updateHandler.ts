@@ -1,3 +1,4 @@
+import { logger } from "../../config/logger";
 import { authService } from "../authService";
 import { telegramClient } from "./telegramClient";
 import { telegramTemplates } from "./templates";
@@ -14,17 +15,37 @@ export interface TelegramUpdate {
 }
 
 export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void> {
-  const match = update.message?.text?.match(/^\/start\s+(.+)$/);
-  if (!match?.[1] || !update.message) return;
+  const message = update.message;
+  if (!message?.text) return;
 
-  try {
-    const user = authService.verifyPurposeToken(match[1], "telegram-link");
-    await userRepository.updateTelegramChatId(user.id, String(update.message.chat.id));
-    await telegramClient.sendMessage(String(update.message.chat.id), telegramTemplates.linked(user.username));
-  } catch {
-    await telegramClient.sendMessage(
-      String(update.message.chat.id),
-      "Tautan ini tidak valid atau sudah kedaluwarsa. Buat tautan baru dari SmartSchedule."
-    );
+  const chatId = String(message.chat.id);
+  const text = message.text.trim();
+
+  logger.info({ chatId, text, updateId: update.update_id }, "Telegram update received");
+
+  // Handle /start with linking token
+  const startMatch = text.match(/^\/start\s+(.+)$/);
+  if (startMatch?.[1]) {
+    try {
+      const user = authService.verifyPurposeToken(startMatch[1], "telegram-link");
+      await userRepository.updateTelegramChatId(user.id, chatId);
+      await telegramClient.sendMessage(chatId, telegramTemplates.linked(user.username));
+      logger.info({ chatId, userId: user.id }, "Telegram account linked successfully");
+    } catch {
+      await telegramClient.sendMessage(
+        chatId,
+        "Tautan ini tidak valid atau sudah kedaluwarsa. Buat tautan baru dari halaman Profil di SmartSchedule."
+      );
+    }
+    return;
   }
+
+  // Handle plain /start (no token)
+  if (text === "/start") {
+    await telegramClient.sendMessage(chatId, telegramTemplates.welcome());
+    return;
+  }
+
+  // Handle any other message
+  await telegramClient.sendMessage(chatId, telegramTemplates.help());
 }
