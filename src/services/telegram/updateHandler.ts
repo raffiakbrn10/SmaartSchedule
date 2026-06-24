@@ -27,7 +27,8 @@ export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void
   const startMatch = text.match(/^\/start\s+(.+)$/);
   if (startMatch?.[1]) {
     try {
-      const user = authService.verifyPurposeToken(startMatch[1], "telegram-link");
+      const decodedToken = Buffer.from(startMatch[1], "base64url").toString("utf-8");
+      const user = authService.verifyPurposeToken(decodedToken, "telegram-link");
       await userRepository.updateTelegramChatId(user.id, chatId);
       await telegramClient.sendMessage(chatId, telegramTemplates.linked(user.username));
       logger.info({ chatId, userId: user.id }, "Telegram account linked successfully");

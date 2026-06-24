@@ -44,7 +44,8 @@ export const integrationController = {
         throw new AppError(503, "Penautan Telegram belum dikonfigurasi.");
       }
       const token = authService.createPurposeToken(req.user!, "telegram-link");
-      res.json({ success: true, message: "Tautan Telegram dibuat.", data: { url: `https://t.me/${env.TELEGRAM_BOT_USERNAME}?start=${encodeURIComponent(token)}` } });
+      const safeToken = Buffer.from(token).toString("base64url");
+      res.json({ success: true, message: "Tautan Telegram dibuat.", data: { url: `https://t.me/${env.TELEGRAM_BOT_USERNAME}?start=${safeToken}` } });
     } catch (error) { next(error); }
   },
   async telegramWebhook(req: Request, res: Response, next: NextFunction): Promise<void> {
