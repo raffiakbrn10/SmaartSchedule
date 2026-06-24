@@ -1,2 +1,13 @@
 import Link from "next/link";
-export default function NotFound() { return <main className="flex min-h-screen items-center justify-center bg-neutral-50 p-6 text-center dark:bg-black"><div><p className="text-sm font-bold uppercase tracking-widest text-emerald-600 dark:text-cyan-400">404</p><h1 className="mt-3 text-3xl font-bold">Halaman tidak ditemukan</h1><Link href="/" className="mt-6 inline-block rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white dark:bg-cyan-600">Kembali ke beranda</Link></div></main>; }
+export default function NotFound() {
+  return (
+    <main className="bg-dynamic flex min-h-screen items-center justify-center bg-[#fafafa] dark:bg-[#0a0000] p-6 text-center">
+      <div className="glass-card p-8 animate-fade-in-up">
+        <p className="text-6xl font-extrabold text-gradient">404</p>
+        <h1 className="mt-4 text-2xl font-extrabold">Halaman tidak ditemukan</h1>
+        <p className="mt-2 text-neutral-500 dark:text-neutral-400">Halaman yang kamu cari tidak tersedia.</p>
+        <Link href="/" className="btn-primary mt-6 inline-block text-sm">Kembali ke beranda</Link>
+      </div>
+    </main>
+  );
+}

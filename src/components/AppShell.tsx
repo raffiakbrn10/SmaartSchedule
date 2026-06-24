@@ -17,8 +17,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       }
     }
   }, [loading, user, router]);
-  if (loading || !user) return <main className="min-h-screen bg-neutral-50 pt-20 dark:bg-black"><Loading label="Memeriksa sesi..." /></main>;
-  return <div className="min-h-screen bg-neutral-50 transition-colors dark:bg-black"><Navbar onMenuClick={() => setOpen(true)} /><Sidebar open={open} onClose={() => setOpen(false)} /><main className="pt-16 transition-all lg:pl-64">{children}</main></div>;
+  if (loading || !user) return <main className="min-h-screen bg-[#fafafa] dark:bg-[#0a0000] pt-20"><Loading label="Memeriksa sesi..." /></main>;
+  return (
+    <div className="bg-dynamic min-h-screen bg-[#fafafa] dark:bg-[#0a0000] transition-colors">
+      <Navbar onMenuClick={() => setOpen(true)} />
+      <Sidebar open={open} onClose={() => setOpen(false)} />
+      <main className="relative z-10 pt-16 transition-all">{children}</main>
+    </div>
+  );
 }
-
-

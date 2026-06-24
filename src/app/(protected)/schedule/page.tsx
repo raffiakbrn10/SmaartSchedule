@@ -12,7 +12,43 @@ export default function SchedulePage() {
   const load = useCallback(async () => { try { const result = await api.schedules(); setSchedules(result.schedules); setError(""); } catch (caught) { setError(caught instanceof ApiError ? caught.message : "Jadwal tidak dapat dimuat."); } finally { setLoading(false); } }, []);
   useEffect(() => { void load(); }, [load]);
   async function save(input: ScheduleInput) { setSaving(true); setError(""); try { if (selected) await api.updateSchedule(selected.id, input); else await api.createSchedule(input); setDialogOpen(false); await load(); } catch (caught) { setError(caught instanceof ApiError ? caught.message : "Jadwal gagal disimpan."); } finally { setSaving(false); } }
-  async function remove(schedule: Schedule) { if (!window.confirm(`Hapus tugas “${schedule.judul}”?`)) return; try { await api.deleteSchedule(schedule.id); await load(); } catch (caught) { setError(caught instanceof ApiError ? caught.message : "Jadwal gagal dihapus."); } }
+  async function remove(schedule: Schedule) { if (!window.confirm(`Hapus tugas "${schedule.judul}"?`)) return; try { await api.deleteSchedule(schedule.id); await load(); } catch (caught) { setError(caught instanceof ApiError ? caught.message : "Jadwal gagal dihapus."); } }
   if (loading) return <Loading label="Memuat jadwal..." />;
-  return <div className="mx-auto max-w-7xl p-5 sm:p-6"><header className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"><div><h1 className="text-2xl font-bold">Jadwal tugas</h1><p className="text-neutral-500 dark:text-neutral-400">Kelola dan pantau semua tugasmu di sini.</p></div><button onClick={() => { setSelected(null); setDialogOpen(true); }} className="rounded-xl bg-emerald-500 px-5 py-2.5 font-semibold text-white shadow-lg shadow-emerald-500/20 hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 dark:bg-cyan-600">+ Tambah tugas</button></header>{error && <div role="alert" className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-400">{error}</div>}<section aria-label="Daftar tugas" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">{schedules.map((item) => <ScheduleCard key={item.id} schedule={item} onEdit={() => { setSelected(item); setDialogOpen(true); }} onDelete={() => void remove(item)} />)}{!schedules.length && <div className="col-span-full rounded-3xl border border-dashed border-neutral-300 bg-white/50 py-12 text-center text-neutral-500 dark:border-neutral-800 dark:bg-neutral-900/30">Belum ada jadwal tugas. Tambahkan tugas pertamamu.</div>}</section><ScheduleDialog open={dialogOpen} schedule={selected} saving={saving} onClose={() => setDialogOpen(false)} onSave={save} /></div>;
+  return (
+    <div className="mx-auto max-w-7xl p-5 sm:p-8">
+      <header className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center animate-fade-in-up">
+        <div>
+          <h1 className="text-2xl font-extrabold sm:text-3xl">Jadwal tugas</h1>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Kelola dan pantau semua tugasmu di sini.</p>
+        </div>
+        <button onClick={() => { setSelected(null); setDialogOpen(true); }} className="btn-primary flex items-center gap-2 text-sm">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+          Tambah tugas
+        </button>
+      </header>
+
+      {error && <div role="alert" className="mb-6 glass-card border-red-200/60 dark:border-red-900/30 bg-red-50/60 dark:bg-red-950/20 p-4 text-sm font-medium text-red-700 dark:text-red-400">{error}</div>}
+
+      <section aria-label="Daftar tugas" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {schedules.map((item) => <ScheduleCard key={item.id} schedule={item} onEdit={() => { setSelected(item); setDialogOpen(true); }} onDelete={() => void remove(item)} />)}
+        {!schedules.length && (
+          <div className="col-span-full glass-card flex flex-col items-center justify-center py-16 text-center">
+            <svg className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mb-4" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+            <p className="text-neutral-500 dark:text-neutral-400 font-medium">Belum ada jadwal tugas.</p>
+            <p className="text-sm text-neutral-400 dark:text-neutral-500 mt-1">Tambahkan tugas pertamamu.</p>
+          </div>
+        )}
+      </section>
+      <ScheduleDialog open={dialogOpen} schedule={selected} saving={saving} onClose={() => setDialogOpen(false)} onSave={save} />
+      
+      {/* Mobile FAB */}
+      <button 
+        onClick={() => { setSelected(null); setDialogOpen(true); }}
+        className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white shadow-xl shadow-red-600/30 transition-transform active:scale-95 md:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-500"
+        aria-label="Tambah tugas"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+      </button>
+    </div>
+  );
 }

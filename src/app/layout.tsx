@@ -5,9 +5,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: "SmartSchedule", template: "%s | SmartSchedule" },
-  description: "Kelola tugas, deadline, Google Calendar, dan pengingat Telegram dalam satu tempat.",
+  description: "Kelola tugas, deadline, dan Google Calendar dalam satu tempat dengan tampilan modern.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  return <html lang="id" suppressHydrationWarning><body><AuthProvider>{children}</AuthProvider></body></html>;
+  return <html lang="id" suppressHydrationWarning><head><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /></head><body><AuthProvider>{children}</AuthProvider></body></html>;
 }
