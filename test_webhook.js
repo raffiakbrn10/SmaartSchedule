@@ -2,12 +2,12 @@ import { TelegramClient } from "./src/services/telegram/telegramClient.js";
 
 async function testWebhook() {
   const telegramClient = new TelegramClient(
-    "8948044912:AAG356ZOouBJRmH4D4Q0NxvNvzLMn7y1744", // bot token from env
+    "[ISI BOT TOKEN DARI .env]", // bot token from env
     true
   );
   
-  const webhookUrl = "https://smartschedule-9ntp.onrender.com/integrations/telegram/webhook";
-  const secret = "telegrambotsmartscheduleactive";
+  const webhookUrl = "[ISI]";
+  const secret = "[isi]";
   
   try {
     const success = await telegramClient.setWebhook(webhookUrl, secret);
