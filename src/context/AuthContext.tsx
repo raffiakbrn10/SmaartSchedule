@@ -29,7 +29,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else {
           setUser(null);
         }
-      } catch {
+      } catch (error) {
+        console.error("AuthContext checkUser error details:", error);
         setUser(null);
       } finally {
         setLoading(false);
@@ -42,7 +43,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           const { user: current } = await api.me();
           setUser(current);
-        } catch {
+        } catch (error) {
+          console.error("AuthContext onAuthStateChange api.me error details:", error);
           setUser(null);
         }
       } else {
