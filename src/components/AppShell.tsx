@@ -9,7 +9,14 @@ import { Sidebar } from "./Sidebar";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth(); const router = useRouter(); const [open, setOpen] = useState(false);
-  useEffect(() => { if (!loading && !user) router.replace("/login"); }, [loading, user, router]);
+  useEffect(() => {
+    if (!loading && !user) {
+      const isOAuth = window.location.hash.includes("access_token=") || window.location.search.includes("code=");
+      if (!isOAuth) {
+        router.replace("/login");
+      }
+    }
+  }, [loading, user, router]);
   if (loading || !user) return <main className="min-h-screen bg-neutral-50 pt-20 dark:bg-black"><Loading label="Memeriksa sesi..." /></main>;
   return <div className="min-h-screen bg-neutral-50 transition-colors dark:bg-black"><Navbar onMenuClick={() => setOpen(true)} /><Sidebar open={open} onClose={() => setOpen(false)} /><main className="pt-16 transition-all lg:pl-64">{children}</main></div>;
 }
