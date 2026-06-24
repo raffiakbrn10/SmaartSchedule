@@ -76,10 +76,12 @@ export default function ProfilePage() {
       const { url } = await api.telegramLink();
       waitingForTelegram.current = true;
 
-      // Use window.location.href for reliable redirect on both desktop and mobile.
-      // window.open() gets blocked by popup blockers on mobile browsers
-      // because the user-gesture context is lost after the async api call.
-      window.location.href = url;
+      // Gunakan window.open untuk membuka di tab baru
+      // Catatan: terkadang bisa diblokir oleh popup blocker di browser mobile karena dipanggil setelah async await.
+      window.open(url, "_blank");
+      
+      // Reset state busy setelah tab baru terbuka agar tombol tidak terus menerus loading
+      setTimeout(() => setBusy(null), 1000);
     } catch (caught) {
       setMessage(caught instanceof ApiError ? caught.message : "Tautan Telegram tidak dapat dibuat.");
       setMessageType("error");
