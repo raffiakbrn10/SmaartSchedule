@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { api, ApiError } from "@/lib/api";
 import type { IntegrationStatus } from "@/types/api";
@@ -12,20 +12,48 @@ export default function ProfilePage() {
   const params = useSearchParams();
   const [status, setStatus] = useState<IntegrationStatus>({ googleLinked: false, telegramLinked: false });
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"info" | "success" | "error">("info");
   const [busy, setBusy] = useState<"google" | "telegram" | "logout" | null>(null);
+  const waitingForTelegram = useRef(false);
 
   const fetchStatus = useCallback(() => {
-    api.integrationStatus().then(setStatus).catch((caught) =>
+    api.integrationStatus().then((newStatus) => {
+      setStatus((prev) => {
+        // Detect when telegram just got linked
+        if (!prev.telegramLinked && newStatus.telegramLinked && waitingForTelegram.current) {
+          waitingForTelegram.current = false;
+          setMessage("Bot Telegram berhasil diaktifkan! 🎉");
+          setMessageType("success");
+        }
+        return newStatus;
+      });
+    }).catch((caught) =>
       setMessage(caught instanceof ApiError ? caught.message : "Status integrasi tidak dapat dimuat.")
     );
   }, []);
 
   useEffect(() => { fetchStatus(); }, [fetchStatus]);
 
+  // Auto-refresh status when user returns to the page (e.g. coming back from Telegram app)
+  useEffect(() => {
+    function handleVisibilityChange() {
+      if (document.visibilityState === "visible") {
+        fetchStatus();
+      }
+    }
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [fetchStatus]);
+
   useEffect(() => {
     const linked = params.get("google_linked");
-    if (linked === "success") setMessage("Google Calendar berhasil ditautkan.");
-    else if (linked === "failed") setMessage("Google Calendar gagal ditautkan.");
+    if (linked === "success") {
+      setMessage("Google Calendar berhasil ditautkan.");
+      setMessageType("success");
+    } else if (linked === "failed") {
+      setMessage("Google Calendar gagal ditautkan.");
+      setMessageType("error");
+    }
   }, [params]);
 
   async function connectGoogle() {
@@ -36,6 +64,7 @@ export default function ProfilePage() {
       window.location.assign(url);
     } catch (caught) {
       setMessage(caught instanceof ApiError ? caught.message : "URL Google tidak dapat dibuat.");
+      setMessageType("error");
       setBusy(null);
     }
   }
@@ -45,15 +74,15 @@ export default function ProfilePage() {
     setMessage("");
     try {
       const { url } = await api.telegramLink();
-      window.open(url, "_blank", "noopener,noreferrer");
-      setMessage("Jendela Telegram telah dibuka. Setelah menautkan, muat ulang halaman ini.");
-      // Auto-refresh status after a delay to detect linking
-      setTimeout(() => fetchStatus(), 5000);
-      setTimeout(() => fetchStatus(), 10000);
-      setTimeout(() => fetchStatus(), 20000);
+      waitingForTelegram.current = true;
+
+      // Use window.location.href for reliable redirect on both desktop and mobile.
+      // window.open() gets blocked by popup blockers on mobile browsers
+      // because the user-gesture context is lost after the async api call.
+      window.location.href = url;
     } catch (caught) {
       setMessage(caught instanceof ApiError ? caught.message : "Tautan Telegram tidak dapat dibuat.");
-    } finally {
+      setMessageType("error");
       setBusy(null);
     }
   }
@@ -63,6 +92,12 @@ export default function ProfilePage() {
     await logout();
     router.replace("/login");
   }
+
+  const messageStyles = {
+    info: "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900 dark:bg-amber-950/20 dark:text-amber-400",
+    success: "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-400",
+    error: "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/20 dark:text-red-400",
+  };
 
   return (
     <div className="mx-auto max-w-3xl p-5 sm:p-6">
@@ -84,7 +119,7 @@ export default function ProfilePage() {
 
         {/* Status Message */}
         {message && (
-          <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/20 dark:text-amber-400">
+          <div role="status" className={`rounded-xl border p-3 text-sm ${messageStyles[messageType]}`}>
             {message}
           </div>
         )}
@@ -134,7 +169,7 @@ export default function ProfilePage() {
                   onClick={() => void connectTelegram()}
                   className="w-full rounded-xl bg-sky-500 py-2.5 text-xs font-bold text-white transition hover:bg-sky-600 disabled:opacity-60"
                 >
-                  {busy === "telegram" ? "Membuat tautan..." : "Mulai bot Telegram"}
+                  {busy === "telegram" ? "Mengarahkan ke Telegram..." : "Mulai bot Telegram"}
                 </button>
               )}
             </article>

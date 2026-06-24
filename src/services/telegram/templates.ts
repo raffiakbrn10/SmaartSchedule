@@ -23,6 +23,6 @@ export const telegramTemplates = {
     return `<b>Notifikasi uji SmartSchedule</b> 🧪\n\nPengiriman diminta oleh administrator <b>${escapeHtml(requestedBy)}</b>. Konfigurasi Telegram berfungsi.`;
   },
   linked(username: string): string {
-    return `<b>Pengingat Telegram aktif</b> ✅\n\nHalo, <b>${escapeHtml(username)}</b>. Chat ini sekarang terhubung dengan akun SmartSchedule kamu.\n\nKamu akan menerima notifikasi otomatis saat:\n• Ada jadwal baru ditambahkan\n• Deadline sudah mendekat`;
+    return `<b>Bot berhasil diaktifkan!</b> ✅\n\nHalo, <b>${escapeHtml(username)}</b>. Chat ini sekarang terhubung dengan akun SmartSchedule kamu.\n\nKamu akan menerima notifikasi otomatis saat:\n• Ada jadwal baru ditambahkan\n• Deadline sudah mendekat`;
   },
 };
