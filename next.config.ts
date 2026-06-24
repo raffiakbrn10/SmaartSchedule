@@ -1,4 +1,4 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = { reactStrictMode: true, poweredByHeader: false, output: "standalone" };
+const nextConfig: NextConfig = { reactStrictMode: true, poweredByHeader: false };
 export default nextConfig;
