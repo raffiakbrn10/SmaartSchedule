@@ -51,14 +51,14 @@ const schema = z.object({
   GOOGLE_CLIENT_SECRET: z.string().default(""),
   GOOGLE_REDIRECT_URI: z.url().default("http://localhost:4000/google/callback"),
 
-  TELEGRAM_BOT_TOKEN: z.string().default(""),
-  TELEGRAM_DEFAULT_CHAT_ID: z.string().default(""),
-  TELEGRAM_BOT_USERNAME: z.string().default(""),
+  TELEGRAM_BOT_TOKEN: z.string().trim().default(""),
+  TELEGRAM_DEFAULT_CHAT_ID: z.string().trim().default(""),
+  TELEGRAM_BOT_USERNAME: z.string().trim().default(""),
   TELEGRAM_NOTIFICATIONS_ENABLED: booleanString.default(false),
   TELEGRAM_POLLING_ENABLED: booleanString.default(false),
   TELEGRAM_WEBHOOK_ENABLED: booleanString.default(false),
-  TELEGRAM_WEBHOOK_SECRET: z.string().default(""),
-  TELEGRAM_WEBHOOK_URL: z.string().url().or(z.literal("")).default(""),
+  TELEGRAM_WEBHOOK_SECRET: z.string().trim().default(""),
+  TELEGRAM_WEBHOOK_URL: z.string().trim().url().or(z.literal("")).default(""),
   TELEGRAM_REQUEST_TIMEOUT_MS: z.coerce
     .number()
     .int()

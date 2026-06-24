@@ -16,6 +16,8 @@ export async function setupTelegramWebhook(): Promise<void> {
       logger.error("Telegram webhook registration failed");
     }
   } catch (error) {
-    logger.error({ error }, "Error setting up Telegram webhook");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    logger.error({ err: errorMessage, stack: errorStack }, "Error setting up Telegram webhook");
   }
 }
