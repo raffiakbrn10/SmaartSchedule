@@ -45,7 +45,7 @@ export async function requireAuth(req: Request, _res: Response, next: NextFuncti
       localUser = { id: record.id, username: record.username, displayName: record.display_name || displayName };
     }
     
-    req.user = { id: localUser.id, username: localUser.username, displayName: localUser.displayName };
+    req.user = { id: localUser.id, username: localUser.username, ...(localUser.displayName && { displayName: localUser.displayName }) };
     next();
   } catch (error) {
     next(error instanceof AppError ? error : new AppError(401, "Sesi tidak valid atau kedaluwarsa."));

@@ -91,7 +91,7 @@ export const authController = {
         };
       }
       
-      const authUser: AuthUser = { id: user.id, username: user.username, displayName: user.display_name || undefined };
+      const authUser: AuthUser = { id: user.id, username: user.username, ...(user.display_name && { displayName: user.display_name }) };
       const jwt = await import("jsonwebtoken");
       const token = jwt.default.sign(authUser, jwtSecret, { expiresIn: jwtExpiresIn as any });
       
