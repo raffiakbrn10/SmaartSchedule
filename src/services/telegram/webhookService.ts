@@ -5,7 +5,7 @@ import { telegramClient } from "./telegramClient";
 export async function setupTelegramWebhook(): Promise<void> {
   if (!env.TELEGRAM_WEBHOOK_ENABLED || !env.TELEGRAM_NOTIFICATIONS_ENABLED) return;
 
-  const webhookUrl = env.TELEGRAM_WEBHOOK_URL || `${env.BACKEND_URL}/api/integrations/telegram/webhook`;
+  const webhookUrl = env.TELEGRAM_WEBHOOK_URL || `${env.BACKEND_URL}/integrations/telegram/webhook`;
   logger.info({ webhookUrl }, "Registering Telegram webhook...");
 
   for (let attempt = 1; attempt <= 5; attempt++) {

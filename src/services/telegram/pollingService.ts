@@ -9,6 +9,18 @@ export function stopTelegramPolling(): void { stopped = true; }
 
 export async function startTelegramPolling(): Promise<void> {
   if (!env.TELEGRAM_POLLING_ENABLED || !env.TELEGRAM_NOTIFICATIONS_ENABLED) return;
+
+  // CRITICAL: Telegram API menolak getUpdates selama webhook masih aktif.
+  // Kita harus menghapus webhook terlebih dahulu sebelum memulai polling.
+  try {
+    const deleted = await telegramClient.deleteWebhook();
+    if (deleted) {
+      logger.info("Existing Telegram webhook deleted before starting polling");
+    }
+  } catch (error) {
+    logger.warn({ error }, "Failed to delete webhook before polling, continuing anyway");
+  }
+
   stopped = false;
   let offset = 0;
   logger.info("Telegram account-link polling started");
@@ -27,6 +39,3 @@ export async function startTelegramPolling(): Promise<void> {
     if (!stopped) await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 }
-
-
-
