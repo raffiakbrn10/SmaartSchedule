@@ -8,16 +8,26 @@ export async function setupTelegramWebhook(): Promise<void> {
   const webhookUrl = env.TELEGRAM_WEBHOOK_URL || `${env.BACKEND_URL}/integrations/telegram/webhook`;
   logger.info({ webhookUrl }, "Registering Telegram webhook...");
 
-  try {
-    const success = await telegramClient.setWebhook(webhookUrl, env.TELEGRAM_WEBHOOK_SECRET || undefined);
-    if (success) {
-      logger.info("Telegram webhook registration completed");
-    } else {
-      logger.error("Telegram webhook registration failed");
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const success = await telegramClient.setWebhook(webhookUrl, env.TELEGRAM_WEBHOOK_SECRET || undefined);
+      if (success) {
+        logger.info("Telegram webhook registration completed");
+        return;
+      } else {
+        logger.error(`Telegram webhook registration failed (Attempt ${attempt})`);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorStack = error instanceof Error ? error.stack : undefined;
+      const cause = error instanceof Error && 'cause' in error ? String((error as any).cause) : undefined;
+      logger.error({ err: errorMessage, cause, stack: errorStack }, `Error setting up Telegram webhook (Attempt ${attempt})`);
     }
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    const errorStack = error instanceof Error ? error.stack : undefined;
-    logger.error({ err: errorMessage, stack: errorStack }, "Error setting up Telegram webhook");
+
+    if (attempt < 5) {
+      const waitTime = Math.pow(2, attempt) * 1000;
+      logger.info(`Retrying Telegram webhook registration in ${waitTime/1000}s...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
   }
 }
