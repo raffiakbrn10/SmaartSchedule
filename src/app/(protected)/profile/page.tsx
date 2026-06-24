@@ -89,7 +89,7 @@ export default function ProfilePage() {
   const displayName = user?.displayName || user?.username.split('@')[0] || "Pengguna";
 
   return (
-    <div className="mx-auto max-w-3xl p-5 sm:p-8">
+    <div className="mx-auto max-w-2xl p-5 sm:p-8">
       <h1 className="mb-6 text-2xl font-extrabold sm:text-3xl animate-fade-in-up">Pengaturan profil</h1>
       <div className="glass-card space-y-8 p-6 sm:p-10">
         {/* User Info */}

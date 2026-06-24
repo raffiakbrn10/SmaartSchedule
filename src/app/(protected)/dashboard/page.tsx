@@ -41,7 +41,7 @@ export default function DashboardPage() {
       {/* Header Section */}
       <header className="mb-10 animate-fade-in-up">
         <h1 className="text-3xl font-extrabold sm:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400 dark:from-white dark:to-neutral-400">
-          Halo, {user?.displayName || user?.username?.split("@")[0]}! 👋
+          Halo, {user?.displayName || user?.username?.split("@")[0]}!
         </h1>
         <p className="mt-3 text-base text-neutral-500 dark:text-neutral-400">
           Pantau progres hari ini dan tetap terorganisir.

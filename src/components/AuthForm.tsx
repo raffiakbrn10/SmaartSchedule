@@ -71,8 +71,10 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
         {/* Brand Text */}
         <div className="relative z-10 text-center px-12 animate-fade-in-up">
-          <div className="mb-8 flex justify-center">
-            <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-white/5 backdrop-blur-2xl border border-white/10 text-4xl font-extrabold text-white shadow-[0_0_40px_rgba(220,38,38,0.3)]">S</span>
+          <div className="mb-10 flex justify-center relative">
+            {/* Moving red glow ring around the logo */}
+            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-red-600 via-red-400 to-red-800 opacity-30 blur-[20px] animate-spin-slow" />
+            <span className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-900 text-5xl font-extrabold text-white shadow-[0_0_60px_rgba(220,38,38,0.6)] border border-red-400/30">S</span>
           </div>
           <h2 className="text-5xl font-extrabold text-white tracking-tight mb-4">SmartSchedule</h2>
           <p className="text-base text-neutral-300 leading-relaxed max-w-sm mx-auto">

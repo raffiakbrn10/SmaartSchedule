@@ -19,6 +19,7 @@ export default {
         "glow-pulse": "glow-pulse 4s ease-in-out infinite",
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",
         "slide-in": "slide-in 0.3s ease-out forwards",
+        "spin-slow": "spin 8s linear infinite",
       },
       keyframes: {
         float: {
