@@ -33,20 +33,20 @@ export function ScheduleDialog({ schedule, open, saving, onClose, onSave }: { sc
           <div>
             <label htmlFor="kategori" className="mb-1.5 block text-sm font-semibold text-neutral-600 dark:text-neutral-400">Kategori</label>
             <select id="kategori" value={form.kategori} onChange={(event) => setForm({ ...form, kategori: event.target.value as ScheduleInput["kategori"] })} className="input-glass w-full">
-              {["Tugas", "Organisasi", "Kepanitiaan"].map((value) => <option key={value}>{value}</option>)}
+              {["Tugas", "Organisasi", "Kepanitiaan"].map((value) => <option key={value} className="bg-white text-neutral-900 dark:bg-neutral-900 dark:text-white">{value}</option>)}
             </select>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="priority" className="mb-1.5 block text-sm font-semibold text-neutral-600 dark:text-neutral-400">Prioritas</label>
               <select id="priority" value={form.prioritas} onChange={(event) => setForm({ ...form, prioritas: event.target.value as ScheduleInput["prioritas"] })} className="input-glass w-full">
-                {["Rendah", "Medium", "Tinggi"].map((value) => <option key={value}>{value}</option>)}
+                {["Rendah", "Medium", "Tinggi"].map((value) => <option key={value} className="bg-white text-neutral-900 dark:bg-neutral-900 dark:text-white">{value}</option>)}
               </select>
             </div>
             <div>
               <label htmlFor="status" className="mb-1.5 block text-sm font-semibold text-neutral-600 dark:text-neutral-400">Status</label>
               <select id="status" value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value as ScheduleInput["status"] })} className="input-glass w-full">
-                {["Belum Selesai", "Selesai"].map((value) => <option key={value}>{value}</option>)}
+                {["Belum Selesai", "Selesai"].map((value) => <option key={value} className="bg-white text-neutral-900 dark:bg-neutral-900 dark:text-white">{value}</option>)}
               </select>
             </div>
           </div>
