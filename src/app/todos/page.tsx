@@ -2,7 +2,8 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/images/Logo Smart Schedule.png";
+import logoLight from "@/images/Logo-Light.png";
+import logoDark from "@/images/Logo-Dark.png";
 
 export default async function TodosPage() {
   const cookieStore = await cookies();
@@ -14,7 +15,8 @@ export default async function TodosPage() {
     <div className="flex min-h-screen flex-col bg-neutral-50 transition-colors dark:bg-black">
       <nav aria-label="Navigasi utama" className="mx-auto flex w-full max-w-7xl items-center justify-between p-5 sm:p-6">
         <Link href="/" className="flex items-center gap-2 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500">
-          <Image src={logo} alt="SmartSchedule Logo" className="h-10 w-auto object-contain" />
+          <Image src={logoLight} alt="SmartSchedule Logo" className="h-12 w-auto object-contain dark:hidden" />
+          <Image src={logoDark} alt="SmartSchedule Logo" className="h-12 w-auto object-contain hidden dark:block" />
           <span className="text-xl font-bold tracking-tight text-neutral-800 dark:text-neutral-100 sm:text-2xl">SmartSchedule</span>
         </Link>
       </nav>

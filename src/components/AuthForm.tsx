@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
-import logo from "@/images/Logo Smart Schedule.png";
+import logoLight from "@/images/Logo-Light.png";
+import logoDark from "@/images/Logo-Dark.png";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
@@ -63,17 +64,26 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const registering = mode === "register";
 
   return (
-    <main className="bg-dynamic flex min-h-screen bg-[#fafafa] dark:bg-[#0a0000] transition-colors">
-      {/* Left Side — Immersive Visual */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center bg-transparent">
-        {/* Background Glow identical to landing page */}
-        <div aria-hidden className="pointer-events-none absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-red-500/10 blur-[120px] animate-glow-pulse dark:bg-red-600/8" />
-        <div aria-hidden className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-black/5 blur-[100px] animate-glow-pulse dark:bg-red-900/10" style={{animationDelay: '2s'}} />
+    <main className="bg-dynamic flex min-h-screen bg-[#fafafa] dark:bg-[#0a0000] transition-colors relative overflow-hidden">
+      {/* Unified Background Glows spanning the entire screen */}
+      <div aria-hidden className="pointer-events-none absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-red-500/10 blur-[120px] animate-glow-pulse dark:bg-red-600/8" />
+      <div aria-hidden className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-black/5 blur-[100px] animate-glow-pulse dark:bg-red-900/10" style={{animationDelay: '2s'}} />
 
+      {/* Back Button */}
+      <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-50">
+        <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-neutral-600 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-400 transition-colors bg-white/40 dark:bg-black/40 px-4 py-2 rounded-full backdrop-blur-md border border-neutral-200 dark:border-white/5 shadow-sm hover:shadow-md">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+          Kembali ke Beranda
+        </Link>
+      </div>
+
+      {/* Left Side — Immersive Visual */}
+      <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-transparent">
         {/* Brand Text */}
         <div className="relative z-10 text-center px-12 animate-fade-in-up">
           <div className="mb-10 flex justify-center relative">
-            <Image src={logo} alt="SmartSchedule Logo" className="h-28 w-auto object-contain drop-shadow-xl" priority />
+            <Image src={logoLight} alt="SmartSchedule Logo" className="h-32 w-auto object-contain drop-shadow-xl dark:hidden" priority />
+            <Image src={logoDark} alt="SmartSchedule Logo" className="h-32 w-auto object-contain drop-shadow-xl hidden dark:block" priority />
           </div>
           <h2 className="text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-4">SmartSchedule</h2>
           <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-sm mx-auto">
@@ -91,7 +101,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           <div className="flex flex-col gap-2 text-center mb-8">
             {/* Mobile brand */}
             <div className="lg:hidden mb-4 flex justify-center">
-              <Image src={logo} alt="SmartSchedule Logo" className="h-14 w-auto object-contain" />
+              <Image src={logoLight} alt="SmartSchedule Logo" className="h-16 w-auto object-contain dark:hidden" />
+              <Image src={logoDark} alt="SmartSchedule Logo" className="h-16 w-auto object-contain hidden dark:block" />
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">{registering ? "Buat akun baru" : "Selamat datang kembali"}</h1>
             <p className="text-sm text-neutral-500 dark:text-neutral-400">{registering ? "Daftar untuk mulai mengelola jadwal Anda" : "Masuk untuk mengakses jadwal Anda"}</p>

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import logo from "@/images/Logo Smart Schedule.png";
+import logoLight from "@/images/Logo-Light.png";
+import logoDark from "@/images/Logo-Dark.png";
 
 export default function HomePage() {
   return (
@@ -18,8 +19,9 @@ export default function HomePage() {
         <div aria-hidden className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-black/5 blur-[100px] animate-glow-pulse dark:bg-red-900/10" style={{animationDelay: '2s'}} />
 
         <div className="relative max-w-5xl animate-fade-in-up">
-          <div className="mx-auto mb-6 flex h-24 w-auto justify-center">
-            <Image src={logo} alt="SmartSchedule Logo" className="h-full w-auto object-contain drop-shadow-2xl" priority />
+          <div className="mx-auto mb-6 flex h-32 w-auto justify-center">
+            <Image src={logoLight} alt="SmartSchedule Logo" className="h-full w-auto object-contain drop-shadow-2xl dark:hidden" priority />
+            <Image src={logoDark} alt="SmartSchedule Logo" className="h-full w-auto object-contain drop-shadow-2xl hidden dark:block" priority />
           </div>
           <p className="mb-5 text-sm font-bold uppercase tracking-[0.25em] text-red-600 dark:text-red-400">SmartSchedule</p>
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight leading-[1.1] sm:text-6xl md:text-7xl">
@@ -34,6 +36,49 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+
+      {/* Tujuan Section */}
+      <section id="tujuan" className="relative z-10 mx-auto w-full max-w-7xl px-5 py-24 sm:px-8">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
+          <div className="w-full lg:w-1/2 animate-fade-in-up">
+            <h2 className="mb-6 text-3xl font-extrabold sm:text-4xl leading-tight">
+              Tujuan Utama Kami:<br />
+              <span className="text-red-600 dark:text-red-400">Menghilangkan Kerumitan Manajemen Akademis Anda</span>
+            </h2>
+            <p className="mb-6 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+              Kami menyadari bahwa menjadi pengguna saat ini sangat menuntut. Anda harus memantau jadwal yang dinamis, tenggat tugas dari berbagai sumber, agenda pribadi, hingga melacak performa aktivitas Anda secara keseluruhan.
+            </p>
+            <p className="text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+              Tujuan dikembangkannya SmartSchedule adalah untuk menciptakan asisten produktivitas yang bekerja secara <strong className="font-bold text-neutral-900 dark:text-white">senyap namun andal</strong> di latar belakang. Dengan otomatisasi ini, Anda tidak perlu lagi menyalin jadwal secara manual atau terbiasa membuka aplikasi berulang kali hanya untuk melihat apa saja tugas yang tersisa.
+            </p>
+          </div>
+          <div className="w-full lg:w-1/2">
+            <div className="glass-card glow-border p-8 sm:p-10 flex flex-col gap-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+              <div className="flex gap-6 items-start">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400 shadow-inner">01</div>
+                <div>
+                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Sentralisasi Tugas</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Semua tugas dan jadwal tersinkronisasi dalam satu dashboard yang rapi dan mudah diakses.</p>
+                </div>
+              </div>
+              <div className="flex gap-6 items-start">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400 shadow-inner">02</div>
+                <div>
+                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Otomatisasi Penuh</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Sinkronisasi terjadwal langsung ke perangkat Anda agar tidak ada tenggat waktu yang terlewat.</p>
+                </div>
+              </div>
+              <div className="flex gap-6 items-start">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400 shadow-inner">03</div>
+                <div>
+                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Peningkatan Fokus</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Fokus penuh pada penyelesaian tugas harian, bukan sekadar mengingat tenggat waktu yang menumpuk.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Feature Cards */}
       <section id="fitur" className="relative z-10 mx-auto w-full max-w-7xl px-5 py-24 sm:px-8">
@@ -71,7 +116,8 @@ export default function HomePage() {
       <footer className="mt-auto border-t border-neutral-200/50 bg-white/20 dark:border-white/5 dark:bg-[#0a0000]/40 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-center px-5 py-8 text-center sm:flex-row sm:justify-between">
           <div className="flex items-center gap-2 mb-4 sm:mb-0">
-            <Image src={logo} alt="SmartSchedule Logo" className="h-6 w-auto object-contain" />
+            <Image src={logoLight} alt="SmartSchedule Logo" className="h-8 w-auto object-contain dark:hidden" />
+            <Image src={logoDark} alt="SmartSchedule Logo" className="h-8 w-auto object-contain hidden dark:block" />
             <span className="font-bold tracking-tight">SmartSchedule</span>
           </div>
           <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500">

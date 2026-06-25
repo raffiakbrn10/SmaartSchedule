@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "@/images/Logo Smart Schedule.png";
+import logoLight from "@/images/Logo-Light.png";
+import logoDark from "@/images/Logo-Dark.png";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar({ onMenuClick }: { onMenuClick(): void }) {
@@ -17,7 +18,8 @@ export function Navbar({ onMenuClick }: { onMenuClick(): void }) {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
           </button>
           <div className="flex items-center gap-2.5">
-            <Image src={logo} alt="SmartSchedule Logo" className="h-9 w-auto object-contain" />
+            <Image src={logoLight} alt="SmartSchedule Logo" className="h-10 w-auto object-contain dark:hidden" />
+            <Image src={logoDark} alt="SmartSchedule Logo" className="h-10 w-auto object-contain hidden dark:block" />
             <span className="hidden text-xl font-extrabold tracking-tight sm:block">SmartSchedule</span>
           </div>
         </div>
