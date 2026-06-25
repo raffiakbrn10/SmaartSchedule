@@ -4,7 +4,6 @@ export function ProgressChart({ schedules }: { schedules: Schedule[] }) {
   const total = schedules.length; const percentage = (status: Schedule["status"]) => total ? Math.round(schedules.filter((item) => item.status === status).length / total * 100) : 0;
   const rows = [
     { label: "Tugas selesai", value: percentage("Selesai"), bar: "bg-gradient-to-r from-emerald-500 to-emerald-400 dark:from-emerald-500 dark:to-emerald-400", text: "text-emerald-600 dark:text-emerald-400" },
-    { label: "Sedang dikerjakan", value: percentage("Sedang Berjalan"), bar: "bg-gradient-to-r from-amber-500 to-amber-400", text: "text-amber-600 dark:text-amber-400" },
     { label: "Belum disentuh", value: percentage("Belum Selesai"), bar: "bg-gradient-to-r from-neutral-400 to-neutral-300 dark:from-neutral-600 dark:to-neutral-500", text: "text-neutral-500" },
   ];
   return (

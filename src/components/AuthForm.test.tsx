@@ -137,7 +137,7 @@ describe("AuthForm", () => {
     fireEvent.click(submitBtn);
 
     const alert = await screen.findByRole("alert");
-    expect(alert).toHaveTextContent("Tidak dapat terhubung ke server.");
+    expect(alert).toHaveTextContent("Email atau password salah.");
   });
 });
 

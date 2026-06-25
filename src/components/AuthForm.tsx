@@ -37,7 +37,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         router.replace("/login?registered=success");
       }
     } catch (caught) {
-      setError(caught instanceof ApiError ? caught.message : "Tidak dapat terhubung ke server.");
+      setError(caught instanceof ApiError ? caught.message : "Email atau password salah.");
     } finally {
       setSubmitting(false);
     }
