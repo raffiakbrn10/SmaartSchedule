@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
+import logo from "@/images/Logo Smart Schedule.png";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
@@ -62,26 +64,19 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
   return (
     <main className="bg-dynamic flex min-h-screen bg-[#fafafa] dark:bg-[#0a0000] transition-colors">
-      {/* Left Side — Immersive Visual (Modern Minimalist Glow) */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center bg-[#050000]">
-        {/* Simple Elegant Glow Background */}
-        <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-red-700/10 to-red-900/20 blur-[120px]" />
-        
-        {/* Accent Glows */}
-        <div aria-hidden className="absolute -top-40 -left-40 h-[400px] w-[400px] rounded-full bg-red-600/5 blur-[100px]" />
-        <div aria-hidden className="absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-red-900/10 blur-[100px]" />
+      {/* Left Side — Immersive Visual */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center bg-transparent">
+        {/* Background Glow identical to landing page */}
+        <div aria-hidden className="pointer-events-none absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-red-500/10 blur-[120px] animate-glow-pulse dark:bg-red-600/8" />
+        <div aria-hidden className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-black/5 blur-[100px] animate-glow-pulse dark:bg-red-900/10" style={{animationDelay: '2s'}} />
 
         {/* Brand Text */}
         <div className="relative z-10 text-center px-12 animate-fade-in-up">
           <div className="mb-10 flex justify-center relative">
-            {/* Elegant static glow around the logo */}
-            <div className="absolute -inset-2 rounded-full bg-red-600/20 blur-[25px]" />
-            <span className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#1a0000] to-[#0a0000] text-5xl font-extrabold shadow-2xl border border-red-900/30">
-              <span className="bg-gradient-to-br from-red-400 to-red-600 bg-clip-text text-transparent drop-shadow-sm">S</span>
-            </span>
+            <Image src={logo} alt="SmartSchedule Logo" className="h-28 w-auto object-contain drop-shadow-xl" priority />
           </div>
-          <h2 className="text-5xl font-extrabold text-white tracking-tight mb-4">SmartSchedule</h2>
-          <p className="text-base text-neutral-400 leading-relaxed max-w-sm mx-auto">
+          <h2 className="text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-4">SmartSchedule</h2>
+          <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-sm mx-auto">
             Platform modern untuk mengelola waktu Anda dengan elegan, cerdas, dan efisien.
           </p>
         </div>
@@ -96,7 +91,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           <div className="flex flex-col gap-2 text-center mb-8">
             {/* Mobile brand */}
             <div className="lg:hidden mb-4 flex justify-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-red-800 font-bold text-white shadow-lg shadow-red-600/30 text-2xl">S</span>
+              <Image src={logo} alt="SmartSchedule Logo" className="h-14 w-auto object-contain" />
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">{registering ? "Buat akun baru" : "Selamat datang kembali"}</h1>
             <p className="text-sm text-neutral-500 dark:text-neutral-400">{registering ? "Daftar untuk mulai mengelola jadwal Anda" : "Masuk untuk mengakses jadwal Anda"}</p>

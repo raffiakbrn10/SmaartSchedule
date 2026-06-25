@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import logo from "@/images/Logo Smart Schedule.png";
 
 export default function HomePage() {
   return (
@@ -16,7 +18,9 @@ export default function HomePage() {
         <div aria-hidden className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-black/5 blur-[100px] animate-glow-pulse dark:bg-red-900/10" style={{animationDelay: '2s'}} />
 
         <div className="relative max-w-5xl animate-fade-in-up">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-red-600 to-red-800 text-4xl font-extrabold text-white shadow-2xl shadow-red-600/40">S</div>
+          <div className="mx-auto mb-6 flex h-24 w-auto justify-center">
+            <Image src={logo} alt="SmartSchedule Logo" className="h-full w-auto object-contain drop-shadow-2xl" priority />
+          </div>
           <p className="mb-5 text-sm font-bold uppercase tracking-[0.25em] text-red-600 dark:text-red-400">SmartSchedule</p>
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight leading-[1.1] sm:text-6xl md:text-7xl">
             Kelola Jadwal Lebih<br className="hidden md:block" /> <span className="text-gradient">Modern dan Terorganisir</span>
@@ -67,7 +71,7 @@ export default function HomePage() {
       <footer className="mt-auto border-t border-neutral-200/50 bg-white/20 dark:border-white/5 dark:bg-[#0a0000]/40 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-center px-5 py-8 text-center sm:flex-row sm:justify-between">
           <div className="flex items-center gap-2 mb-4 sm:mb-0">
-            <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-800 text-[10px] font-bold text-white shadow-lg shadow-red-600/30">S</span>
+            <Image src={logo} alt="SmartSchedule Logo" className="h-6 w-auto object-contain" />
             <span className="font-bold tracking-tight">SmartSchedule</span>
           </div>
           <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500">
