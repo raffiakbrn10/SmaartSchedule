@@ -87,7 +87,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           </div>
           <h2 className="text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-4">SmartSchedule</h2>
           <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-sm mx-auto">
-            Platform modern untuk mengelola waktu Anda dengan elegan, cerdas, dan efisien.
+            Platform modern untuk mengelola seluruh jadwal Anda dengan cerdas, dan efisien.
           </p>
         </div>
       </div>
@@ -122,7 +122,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="input-glass focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all"
-                  placeholder="Misal: Budi"
+                  placeholder="Contoh: Fulan"
                 />
               </div>
             )}
@@ -149,7 +149,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input-glass focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all"
-                placeholder="Masukkan password"
+                placeholder="Password min 8 karakter"
               />
             </div>
             <button
