@@ -25,10 +25,10 @@ export default function HomePage() {
           </div>
           <p className="mb-5 text-sm font-bold uppercase tracking-[0.25em] text-red-600 dark:text-red-400">SmartSchedule</p>
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight leading-[1.1] sm:text-6xl md:text-7xl">
-            Kelola Jadwal Lebih<br className="hidden md:block" /> <span className="text-gradient">Modern dan Terorganisir</span>
+            Kelola Jadwal harianmu<br className="hidden md:block" /> <span className="text-gradient">Lebih Cerdas dan Terstruktur</span>
           </h1>
           <p className="mx-auto mb-12 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400 sm:text-lg">
-            Platform manajemen tugas cerdas yang dirancang untuk meningkatkan produktivitas Anda. Dengan antarmuka yang bersih dan fitur yang canggih, SmartSchedule membantu Anda fokus pada apa yang benar-benar penting.
+            Tingkatkan produktivitas dengan sistem penjadwalan yang terorganisir. Smart Schedule memudahkan Anda mengelola daftar tugas dan memantau setiap perkembangan melalui fitur analisis progres yang komprehensif, SmartSchedule membantu Anda fokus pada apa yang benar-benar penting.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href="/login" className="btn-primary text-center text-sm sm:text-base">Ayo mulai atur jadwalmu</Link>
@@ -43,13 +43,13 @@ export default function HomePage() {
           <div className="w-full lg:w-1/2 animate-fade-in-up">
             <h2 className="mb-6 text-3xl font-extrabold sm:text-4xl leading-tight">
               Tujuan Utama Kami:<br />
-              <span className="text-red-600 dark:text-red-400">Menghilangkan Kerumitan Manajemen Akademis Anda</span>
+              <span className="text-red-600 dark:text-red-400">Membantu Anda dalam mengelola jadwal secara terstruktur</span>
             </h2>
             <p className="mb-6 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
-              Kami menyadari bahwa menjadi pengguna saat ini sangat menuntut. Anda harus memantau jadwal yang dinamis, tenggat tugas dari berbagai sumber, agenda pribadi, hingga melacak performa aktivitas Anda secara keseluruhan.
+              Kami menyadari bahwa di era dengan ritme yang serba cepat ini, mengelola jadwal yang dinamis sering kali menjadi tantangan tersendiri. Anda dituntut untuk menyeimbangkan tenggat waktu dari berbagai tugas, proyek, rapat penting, hingga agenda personal, yang sering kali datanya tersebar di berbagai platform. Memantau semuanya secara manual tentu sangat tidak efisien dan rentan terhadap kesalahan.
             </p>
             <p className="text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
-              Tujuan dikembangkannya SmartSchedule adalah untuk menciptakan asisten produktivitas yang bekerja secara <strong className="font-bold text-neutral-900 dark:text-white">senyap namun andal</strong> di latar belakang. Dengan otomatisasi ini, Anda tidak perlu lagi menyalin jadwal secara manual atau terbiasa membuka aplikasi berulang kali hanya untuk melihat apa saja tugas yang tersisa.
+              Oleh karena itu, SmartSchedule dirancang sebagai mesin produktivitas tangguh yang bekerja secara cerdas dan otomatis di balik layar. Dengan <strong className="font-bold text-neutral-900 dark:text-white">kapabilitas integrasi dan otomatisasi tingkat lanjut</strong>, Anda tidak perlu lagi menyusun jadwal secara manual. Biarkan teknologi kami yang mengatur alur kerja Anda, sehingga Anda dapat fokus pada hasil yang berdampak tinggi.
             </p>
           </div>
           <div className="w-full lg:w-1/2">
@@ -57,22 +57,22 @@ export default function HomePage() {
               <div className="flex gap-6 items-start">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400 shadow-inner">01</div>
                 <div>
-                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Sentralisasi Tugas</h3>
-                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Semua tugas dan jadwal tersinkronisasi dalam satu dashboard yang rapi dan mudah diakses.</p>
+                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Sentralisasi Jadwal</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Gabungkan seluruh tugas, proyek, dan kalender dari berbagai sumber ke dalam satu dashboard komprehensif. Dapatkan visibilitas penuh atas seluruh aktivitas Anda tanpa perlu membuang waktu berpindah-pindah aplikasi.</p>
                 </div>
               </div>
               <div className="flex gap-6 items-start">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400 shadow-inner">02</div>
                 <div>
-                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Otomatisasi Penuh</h3>
-                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Sinkronisasi terjadwal langsung ke perangkat Anda agar tidak ada tenggat waktu yang terlewat.</p>
+                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Otomatisasi Jadwal Presisi</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Teknologi kami secara dinamis mengelola prioritas dan mensinkronisasikan tenggat waktu ke seluruh perangkat Anda secara real-time.</p>
                 </div>
               </div>
               <div className="flex gap-6 items-start">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400 shadow-inner">03</div>
                 <div>
-                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Peningkatan Fokus</h3>
-                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Fokus penuh pada penyelesaian tugas harian, bukan sekadar mengingat tenggat waktu yang menumpuk.</p>
+                  <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-white">Analitik & Eksekusi Optimal</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">Ubah cara kerja Anda dengan wawasan berbasis data. Fitur analisis progres kami membantu Anda melacak produktivitas secara akurat. Kurangi waktu yang terbuang untuk sekadar merencanakan, dan alokasikan energi penuh Anda untuk eksekusi yang optimal.</p>
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2 mb-4 sm:mb-0">
             <Image src={logoLight} alt="SmartSchedule Logo" className="h-8 w-auto object-contain dark:hidden" />
             <Image src={logoDark} alt="SmartSchedule Logo" className="h-8 w-auto object-contain hidden dark:block" />
-            <span className="font-bold tracking-tight">SmartSchedule</span>
+            <span className="font-bold tracking-tight">SmartSchedule V1</span>
           </div>
           <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500">
             copyright&copy; 2026 Raffiakbarn. All rights reserved.
