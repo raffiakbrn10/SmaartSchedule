@@ -22,7 +22,6 @@ export default function DashboardPage() {
   if (loading) return <Loading label="Menyelaraskan dashboard..." />;
 
   const completed = schedules.filter((item) => item.status === "Selesai").length;
-  const active = schedules.filter((item) => item.status === "Sedang Berjalan").length;
   
   // Sort schedules for list view
   const sortedSchedules = [...schedules].sort((a, b) => +new Date(a.deadline) - +new Date(b.deadline));
@@ -31,7 +30,7 @@ export default function DashboardPage() {
   const recentActivities = sortedSchedules.slice(0, 4).map(s => ({
     id: s.id,
     title: s.judul,
-    action: s.status === "Selesai" ? "Tugas diselesaikan" : s.status === "Sedang Berjalan" ? "Mulai dikerjakan" : "Tugas ditambahkan",
+    action: s.status === "Selesai" ? "Tugas diselesaikan" : "Tugas ditambahkan",
     time: new Intl.DateTimeFormat("id-ID", { dateStyle: "short", timeStyle: "short" }).format(new Date(s.deadline)),
     isCompleted: s.status === "Selesai"
   }));
@@ -51,9 +50,8 @@ export default function DashboardPage() {
       {error && <div role="alert" className="glass-card border-red-200/60 dark:border-red-900/30 bg-red-50/60 dark:bg-red-950/20 p-4 text-sm font-medium text-red-700 dark:text-red-400">{error}</div>}
 
       {/* Stats Row */}
-      <section aria-label="Ringkasan tugas" className="grid gap-6 md:grid-cols-3">
+      <section aria-label="Ringkasan tugas" className="grid gap-6 md:grid-cols-2">
         <StatsCard title="Total tugas" value={schedules.length} icon="tasks" color="teal" />
-        <StatsCard title="Sedang dikerjakan" value={active} icon="progress" color="orange" />
         <StatsCard title="Selesai" value={completed} icon="done" color="emerald" />
       </section>
 
@@ -87,7 +85,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <div className="hidden sm:block">
-                      <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg ${schedule.status === 'Selesai' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : schedule.status === 'Sedang Berjalan' ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400' : 'bg-neutral-100 text-neutral-600 dark:bg-white/5 dark:text-neutral-400'}`}>{schedule.status}</span>
+                      <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg ${schedule.status === 'Selesai' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400'}`}>{schedule.status}</span>
                     </div>
                   </div>
                 ))

@@ -1,6 +1,6 @@
 import type { Schedule } from "@/types/api";
 
-export function ScheduleCard({ schedule, onEdit, onDelete }: { schedule: Schedule; onEdit(): void; onDelete(): void }) {
+export function ScheduleCard({ schedule, onEdit, onDelete, onToggleStatus }: { schedule: Schedule; onEdit(): void; onDelete(): void; onToggleStatus(): void }) {
   const priorityStyles = {
     Tinggi: "border-red-300/60 bg-red-100/60 text-red-600 dark:border-red-800/50 dark:bg-red-950/30 dark:text-red-400",
     Medium: "border-amber-300/60 bg-amber-100/60 text-amber-600 dark:border-amber-800/50 dark:bg-amber-950/30 dark:text-amber-400",
@@ -12,9 +12,12 @@ export function ScheduleCard({ schedule, onEdit, onDelete }: { schedule: Schedul
       {/* Top gradient bar */}
       <div aria-hidden className={`absolute inset-x-0 top-0 h-[2px] ${schedule.status === "Selesai" ? "bg-neutral-300 dark:bg-neutral-700" : "bg-gradient-to-r from-red-500 to-red-400 dark:from-red-500 dark:to-red-400"}`} />
 
-      <div className="mb-4 mt-2 flex items-start justify-between gap-2">
-        <span className={`rounded-lg border px-3 py-1 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm ${priorityStyles}`}>{schedule.prioritas}</span>
-        <span className={`rounded-lg px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${schedule.status === "Selesai" ? "bg-neutral-100/80 text-neutral-500 dark:bg-white/5 dark:text-neutral-500" : "bg-neutral-800 text-white dark:bg-white/90 dark:text-black"}`}>{schedule.status}</span>
+      <div className="mb-4 mt-2 flex flex-wrap items-start justify-between gap-2">
+        <div className="flex flex-wrap gap-2">
+          <span className={`rounded-lg border px-3 py-1 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm ${priorityStyles}`}>{schedule.prioritas}</span>
+          <span className="rounded-lg border border-neutral-200/60 bg-white/50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-neutral-400 backdrop-blur-sm">{schedule.kategori || "Tugas"}</span>
+        </div>
+        <button type="button" onClick={onToggleStatus} className={`rounded-lg px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95 ${schedule.status === "Selesai" ? "bg-emerald-100 text-emerald-700 shadow-sm dark:bg-emerald-900/40 dark:text-emerald-400" : "bg-red-500 text-white shadow-md shadow-red-500/20 dark:bg-red-600"}`}>{schedule.status}</button>
       </div>
 
       <h2 className="mb-5 line-clamp-2 text-lg font-bold tracking-tight">{schedule.judul}</h2>

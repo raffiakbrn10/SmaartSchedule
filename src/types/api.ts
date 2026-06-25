@@ -18,12 +18,14 @@ export interface AuthUser {
 }
 
 export type Priority = "Rendah" | "Medium" | "Tinggi";
-export type ScheduleStatus = "Belum Selesai" | "Sedang Berjalan" | "Selesai";
+export type Kategori = "Tugas" | "Organisasi" | "Kepanitiaan";
+export type ScheduleStatus = "Belum Selesai" | "Selesai";
 
 export interface Schedule {
   id: number;
   user_id: number;
   judul: string;
+  kategori: Kategori;
   prioritas: Priority;
   status: ScheduleStatus;
   deadline: string;
@@ -32,6 +34,7 @@ export interface Schedule {
 
 export interface ScheduleInput {
   judul: string;
+  kategori: Kategori;
   prioritas: Priority;
   status: ScheduleStatus;
   deadline: string;
