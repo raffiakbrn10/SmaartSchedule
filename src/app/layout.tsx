@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AuthProvider } from "@/context/AuthContext";
-import { MouseGlow } from "@/components/MouseGlow";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +18,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <AuthProvider>
           {children}
-          <MouseGlow />
         </AuthProvider>
       </body>
     </html>

@@ -62,22 +62,26 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
   return (
     <main className="bg-dynamic flex min-h-screen bg-[#fafafa] dark:bg-[#0a0000] transition-colors">
-      {/* Left Side — Immersive Visual (Modern Abstract Liquid Blobs) */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center bg-[#0a0000]">
-        {/* Dynamic Abstract Blobs */}
-        <div aria-hidden className="absolute top-1/4 left-1/4 h-[40vw] w-[40vw] rounded-full bg-gradient-to-tr from-red-800 to-red-500 blur-[120px] opacity-40 animate-float" />
-        <div aria-hidden className="absolute bottom-1/4 right-1/4 h-[35vw] w-[35vw] rounded-full bg-gradient-to-bl from-red-900 to-black blur-[140px] opacity-60 animate-float-delayed" />
-        <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50vw] w-[50vw] rounded-full bg-red-600/10 blur-[150px] animate-glow-pulse" />
+      {/* Left Side — Immersive Visual (Modern Minimalist Glow) */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center bg-[#050000]">
+        {/* Simple Elegant Glow Background */}
+        <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-red-700/10 to-red-900/20 blur-[120px]" />
+        
+        {/* Accent Glows */}
+        <div aria-hidden className="absolute -top-40 -left-40 h-[400px] w-[400px] rounded-full bg-red-600/5 blur-[100px]" />
+        <div aria-hidden className="absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-red-900/10 blur-[100px]" />
 
         {/* Brand Text */}
         <div className="relative z-10 text-center px-12 animate-fade-in-up">
           <div className="mb-10 flex justify-center relative">
-            {/* Moving red glow ring around the logo */}
-            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-red-600 via-red-400 to-red-800 opacity-30 blur-[20px] animate-spin-slow" />
-            <span className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-900 text-5xl font-extrabold text-white shadow-[0_0_60px_rgba(220,38,38,0.6)] border border-red-400/30">S</span>
+            {/* Elegant static glow around the logo */}
+            <div className="absolute -inset-2 rounded-full bg-red-600/20 blur-[25px]" />
+            <span className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#1a0000] to-[#0a0000] text-5xl font-extrabold shadow-2xl border border-red-900/30">
+              <span className="bg-gradient-to-br from-red-400 to-red-600 bg-clip-text text-transparent drop-shadow-sm">S</span>
+            </span>
           </div>
           <h2 className="text-5xl font-extrabold text-white tracking-tight mb-4">SmartSchedule</h2>
-          <p className="text-base text-neutral-300 leading-relaxed max-w-sm mx-auto">
+          <p className="text-base text-neutral-400 leading-relaxed max-w-sm mx-auto">
             Platform modern untuk mengelola waktu Anda dengan elegan, cerdas, dan efisien.
           </p>
         </div>
