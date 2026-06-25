@@ -43,7 +43,7 @@ export default function DashboardPage() {
           Halo, {user?.displayName || user?.username?.split("@")[0]}!
         </h1>
         <p className="mt-3 text-base text-neutral-500 dark:text-neutral-400">
-          Pantau progres hari ini dan tetap terorganisir.
+          Pantau progres harianmu dengan cara yang cerdas.
         </p>
       </header>
 
@@ -97,7 +97,7 @@ export default function DashboardPage() {
         {/* Right Column (Sidebar) */}
         <div className="lg:col-span-1 space-y-6">
           <article className="glass-card p-6">
-            <h2 className="mb-4 text-lg font-bold">Progres Tugas</h2>
+            <h2 className="mb-4 text-lg font-bold">Progres Jadwal</h2>
             <ProgressChart schedules={schedules} />
           </article>
           <article className="glass-card p-6">
