@@ -52,7 +52,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose(): void }) {
             })}
           </nav>
           <div className="glass-card p-4 text-center text-xs text-neutral-400 dark:text-neutral-500">
-            SmartSchedule v2.0
+            SmartSchedule v1.0
           </div>
         </div>
       </aside>
