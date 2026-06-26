@@ -118,7 +118,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2 mb-4 sm:mb-0">
             <Image src={logoLight} alt="SmartSchedule Logo" className="h-8 w-auto object-contain dark:hidden" />
             <Image src={logoDark} alt="SmartSchedule Logo" className="h-8 w-auto object-contain hidden dark:block" />
-            <span className="font-bold tracking-tight">SmartSchedule V1</span>
+            <span className="font-bold tracking-tight">SmartSchedule v1.0</span>
           </div>
           <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500">
             copyright&copy; 2026 Raffiakbarn. All rights reserved.
