@@ -22,6 +22,14 @@ SmartSchedule adalah manajer tugas dan _deadline_ berbasis TypeScript. Aplikasi 
 
 ---
 
+## 📸 Tangkapan Layar (Screenshots)
+
+| Landing Page | Halaman Dashboard & Analitik Progres |
+| :---: | :---: |
+| <img src="src/images/LandingPage.png" width="400" alt="Landing Page SmartSchedule"/> | <img src="src/images/Dashboard.png" width="400" alt="Dashboard dan Analitik SmartSchedule"/> |
+
+---
+
 ## 🛠 Instalasi dan Menjalankan Lokal
 
 Aplikasi ini bergantung pada **Supabase (PostgreSQL)**. Untuk mempermudah proses instalasi lokal, kami telah menyediakan skrip otomatis untuk meluncurkannya menggunakan Docker Desktop di komputer Anda.
