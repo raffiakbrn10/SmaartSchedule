@@ -6,10 +6,10 @@ SmartSchedule adalah manajer tugas dan _deadline_ berbasis TypeScript. Aplikasi 
 > Manajer tugas dan *deadline* berbasis TypeScript dengan integrasi autentikasi modern. Dirancang dengan pemisahan *frontend* dan *backend* untuk memastikan keamanan serta skalabilitas tingkat tinggi.
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)]()
-[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)]()
-[![Express.js](https://img.shields.io/badge/Express.js-404D59?logo=express)]()
-[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)]()
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?logo=express)](https://expressjs.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 
 ---
 
