@@ -1,32 +1,43 @@
-# SmartSchedule
+# 🚀 SmartSchedule
 
 SmartSchedule adalah manajer tugas dan _deadline_ berbasis TypeScript. Aplikasi ini memisahkan frontend (Next.js App Router) dan backend (Express API) untuk keamanan dan skalabilitas. Pada versi terbaru ini, kami telah **mengintegrasikan Supabase Auth (Google Login)** sambil tetap mempertahankan alur kerja utama aplikasi.
 
-## 🚀 Fitur Utama
+> **Mentransformasi Cara Anda Mengelola Waktu.**  
+> Manajer tugas dan *deadline* berbasis TypeScript dengan integrasi autentikasi modern. Dirancang dengan pemisahan *frontend* dan *backend* untuk memastikan keamanan serta skalabilitas tingkat tinggi.
 
-- **Supabase Authentication**: Login menggunakan Google sekali klik via Supabase OAuth.
-- **Frontend Next.js**: Menggunakan App Router (React 19) dengan desain UI komponen modern.
-- **Backend Express.js 5**: Menangani logika sinkronisasi data, keamanan (CORS, Rate Limiter), dan komunikasi database.
-- **Integrasi Pihak Ketiga**: Siap mendukung Google Calendar (untuk event sync) dan Telegram Bot (untuk pengingat deadline).
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)]()
+[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)]()
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?logo=express)]()
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)]()
+
+---
+
+## ✨ Fitur Utama
+
+*   🔐 **Supabase Authentication**: Akses masuk instan dan aman menggunakan integrasi *login* Google sekali klik via Supabase OAuth.
+*   🖥️ **Frontend Next.js Modern**: Menggunakan App Router (React 19) dengan desain antarmuka komponen yang intuitif dan responsif.
+*   ⚙️ **Backend Express.js 5 Tangguh**: Menangani logika sinkronisasi data secara efisien, dilengkapi perlindungan keamanan ganda (CORS, Rate Limiter), serta komunikasi *database* yang aman.
+*   📅 **Integrasi Pihak Ketiga**: Arsitektur sistem telah dirancang untuk siap mendukung sinkronisasi *event* dengan Google Calendar.
 
 ---
 
 ## 🛠 Instalasi dan Menjalankan Lokal
 
-Karena aplikasi ini sekarang bergantung pada **Supabase (PostgreSQL)**, kami telah menyediakan skrip otomatis untuk meluncurkannya menggunakan Docker Desktop di komputer Anda.
+Aplikasi ini bergantung pada **Supabase (PostgreSQL)**. Untuk mempermudah proses instalasi lokal, kami telah menyediakan skrip otomatis untuk meluncurkannya menggunakan Docker Desktop di komputer Anda.
 
-### Persyaratan
-- Node.js versi 22+
-- **Docker Desktop** (Pastikan dalam keadaan aktif dan "Engine running")
+### Persyaratan Sistem
+*   **Node.js**: Versi 22 atau lebih baru.
+*   **Docker Desktop**: Pastikan aplikasi berjalan dan status mesin menunjukkan "Engine running".
 
 ### 1. Kloning & Install Dependensi
 ```bash
-git clone https://github.com/raffiakbrn10/SmaartSchedule.git
+git clone [https://github.com/raffiakbrn10/SmaartSchedule.git](https://github.com/raffiakbrn10/SmaartSchedule.git)
 cd SmaartSchedule
 npm ci
 ```
 
-### 2. Atur Environment Variables
+### 2. Mengatur Environment Variables
 Kami telah menyediakan kerangka file _.env_ untuk Anda. Cukup gandakan (_copy_) kerangkanya agar tersembunyi dari repositori GitHub.
 
 ```bash
@@ -78,11 +89,5 @@ npm run typecheck
 npm test
 ```
 
-## 🔐 Integrasi Lainnya (Telegram)
-
-Untuk notifikasi jadwal ke Telegram:
-1. Pesan ke `@BotFather` di aplikasi Telegram dan buat _bot_.
-2. Dapatkan _Token_ lalu isikan di dalam `.env.local` pada `TELEGRAM_BOT_TOKEN`.
-3. Setel `TELEGRAM_NOTIFICATIONS_ENABLED=true` jika sudah siap digunakan di mode _production_.
 
 _(Fitur ini dinonaktifkan secara bawaan di `.env.example` untuk memudahkan pengembangan UI/Auth)._
